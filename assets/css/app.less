@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Advent+Pro:400);
-@import "elements";
+@import "../../bower_components/lesshat/build/lesshat";
 @import "switch.less";
 
 @main-color: #AC35FE;
@@ -15,7 +15,7 @@ header.jumbotron {
 	-moz-border-radius: 0;
 	-webkit-border-radius: 0;
 	border-radius: 0;
-	background: @main-color url("../icon.png") no-repeat 20px center;
+	background: @main-color url("../images/icon.png") no-repeat 20px center;
 	background-size: 96px;
 	color: #FFF;
 	padding: 30px 30px 50px;
@@ -38,7 +38,7 @@ header.jumbotron {
 	 }
 
 	#helpBtn {
-		.border-radius(6px, 0, 0, 6px);
+		.border-radius(6px 6px 0 0);
 		background-color: #FFF;
 		border: none;
 		bottom: 0;

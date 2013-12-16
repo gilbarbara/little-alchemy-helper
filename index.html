@@ -5,30 +5,28 @@
         <title>Little Alchemy Helper: Hints and Cheats</title>
 		<meta name="description" content="Interactive app with a bookmarklet to help while you play the game Little Alchemy.
 
-With all 420 elements.
+With all 450 elements.
 " />
 		<meta name="keywords" content="little alchemy, game, cheats, combinations, helper, app" />
 		<link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
-		<link href="assets/css/bootstrap.min.css" media="screen" type="text/css" rel="stylesheet"/>
-		<link href="assets/css/font-awesome.css" media="screen" type="text/css" rel="stylesheet"/>
-		<link href="assets/css/app.css" media="screen" type="text/css" rel="stylesheet"/>
-        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+		<link href="assets/dist/bootstrap.min.css" media="screen" type="text/css" rel="stylesheet"/>
+		<link href="assets/dist/font-awesome/css/font-awesome.min.css" media="screen" type="text/css" rel="stylesheet"/>
+		<link href="assets/dist/app.min.css" media="screen" type="text/css" rel="stylesheet"/>
 		<!--[if lt IE 9]>
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<script src="assets/respond.min.js"></script>
+		<script src="assets/dist/respond.min.js"></script>
 		<![endif]-->
-		<script type="text/javascript" src="assets/compiled.min.js"></script>
 		<meta name="viewport" content="width=544" />
 		<meta property="og:title" content="Little Alchemy Helper: Hints and Cheats" />
-		<meta property="og:description" content="Interactive app with a bookmarklet to help while you play the game Little Alchemy. With all 420 elements." />
+		<meta property="og:description" content="Interactive app with a bookmarklet to help while you play the game Little Alchemy. With all 450 elements." />
 		<meta property="og:url" content="http://littlealchemyhelper.com" />
 		<meta property="og:image" content="http://littlealchemyhelper.com/assets/ogimage.png" />
 	</head>
 	<body>
 		<header class="jumbotron">
 			<h1>Little Alchemy Helper</h1>
-			<h4>A tool to help you with the game <a href="http://littlealchemy.com/" target="_blank">Little Alchemy</a>. With all <span id="elementsCount">420</span> elements</h4>
-			<button id="helpBtn"><i class="icon-question"></i> Help</button>
+			<h4>A tool to help you with the game <a href="http://littlealchemy.com/" target="_blank">Little Alchemy</a>. With all <span id="elementsCount">450</span> elements</h4>
+			<button id="helpBtn"><i class="fa fa-question"></i> Help</button>
 			<div class="sharing">
 				<span class='st_facebook_hcount' displayText='Facebook'></span>
 				<span class='st_twitter_hcount' displayText='Tweet'></span>
@@ -37,8 +35,8 @@ With all 420 elements.
 		</header>
 		<div id="help">
 			<div class="container">
-			<h5>click the <i class="icon-plus-sign-alt"></i> to mark elements as completed</h5>
-			<h5>click the <i class="icon-external-link-sign"></i> to view the thing you can do with it</h5>
+			<h5>click the <i class="fa fa-plus-square"></i> to mark elements as completed</h5>
+			<h5>click the <i class="f1 fa-external-link-square"></i> to view the thing you can do with it</h5>
 			</div>
 		</div>
 		<div class="container">
@@ -46,27 +44,27 @@ With all 420 elements.
 				<h5><a class="label label-purple" href="javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahImport=[];$('.libbox').each(function(i, el) { lahImport.push($(el).prop('class').match(/el(\d+)/)[1]) });lahUrl='http://littlealchemyhelper.com/index.html?type=iframe&version=0.3'+(lahImport.length?'&import='+lahImport.join(','):'');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:50,left:50,width:425,height:$(window).height()-100}).appendTo('body');}else{$('#laHelper').remove();}}})();">LittleAlchemyHelper</a></h5>
 			</blockquote>
 			<div id="toolbar">
-				<div id="reloader" class="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><i class="icon-warning-sign"></i> <span>Click the bookmarklet twice to reload your discovered elements</span></div>
+				<div id="reloader" class="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><i class="fa fa-exclamation-triangle"></i> <span>Click the bookmarklet twice to reload your discovered elements</span></div>
 				<div class="row">
-					<div class="col-sm-6"><input type="text" id="filter" class="clearable input-large" placeholder="Things you can make with..." autocomplete="off"/></div>
-					<div class="col-sm-6"><input type="text" id="search" class="clearable input-large" placeholder="Search elements" autocomplete="off"/></div>
+					<div class="col-sm-6"><input type="text" id="filter" class="clearable form-control input-lg" placeholder="Things you can make with..." autocomplete="off"/></div>
+					<div class="col-sm-6"><input type="text" id="search" class="clearable form-control input-lg" placeholder="Search elements" autocomplete="off"/></div>
 					<!--<label for="hideFinal" class="col-lg-3"><input type="checkbox" id="hideFinal" value="1"/> Hide Final Elements</label>-->
 				</div>
 				<div class="row">
 					<div id="cheats" class="col-sm-6">
 						<div class="switch switch-square"
-							 data-on-label="<i class='icon-ok'></i>"
-							 data-off-label="<i class='icon-remove'></i>">
+							 data-on-label="<i class='fa fa-check'></i>"
+							 data-off-label="<i class='fa fa-times'></i>">
 							<input id="showCheats" type="checkbox" value="1"/>
 						</div>
 						<label>Show Cheats?</label>
 					</div>
 					<div id="completedOptions" class="col-sm-6">
 						<div class="btn-group">
-							<button id="showCompleted" class="btn btn-small btn-light"><i class="icon-eye-open"></i> <span>show</span> completed</button>
-							<button id="resetCompleted" class="btn btn-small btn-light"><i class="icon-warning-sign"></i> <span>reset completed</span></button>
+							<button id="showCompleted" class="btn btn-small btn-light"><i class="fa fa-eye"></i> <span>show</span> completed</button>
+							<button id="resetCompleted" class="btn btn-small btn-light"><i class="fa fa-exclamation-triangle"></i> <span>reset completed</span></button>
 
-							<button id="completedCount" class="btn btn-small btn-light disabled"><i class="icon-ok"></i> <span></span> completed</button>
+							<button id="completedCount" class="btn btn-small btn-light disabled"><i class="fa fa-check"></i> <span></span> completed</button>
 						</div>
 					</div>
 				</div>
@@ -87,6 +85,9 @@ With all 420 elements.
 				<div class="make">§§</div>
 			</div>
 		</div>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+		<script type="text/javascript" src="assets/dist/extensions.min.js"></script>
+		<script type="text/javascript" src="assets/dist/app.min.js"></script>
 		<script>
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

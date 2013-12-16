@@ -1,3 +1,8 @@
+/**
+ * Little Alchemy Helper App
+ * @module app
+ */
+
 var base,
 	names,
 	completedCount,
@@ -7,10 +12,10 @@ var base,
 	candyPack = [270,271,272,273,274,275,276,277,278,279,280,291,292,293,294,295,296,297,298,299,320,321,322,323,324,325,326,327,328,329];
 
 function getQueryOption(name) {
-	name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+	name = name.replace(/[\[]/, "\\\\[").replace(/[\]]/, "\\\\]");
 	var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 		results = regex.exec(location.search);
-	return results == null ? false : decodeURIComponent(results[1].replace(/\+/g, " "));
+	return results === null ? false : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
 function cleanHeader() {
@@ -20,9 +25,15 @@ function cleanHeader() {
 
 function cleanQueries(skip) {
 	skip = skip ? skip : [];
-	if ($.inArray('completed', skip) == -1) $("#showCompleted").removeClass('btn-purple').addClass('btn-light').find('span').html('show');
-	if ($.inArray('filter', skip) == -1) $("#filter").trigger('clear');
-	if ($.inArray('search', skip) == -1) $("#search").trigger('clear');
+	if ($.inArray('completed', skip) === -1) {
+		$("#showCompleted").removeClass('btn-purple').addClass('btn-light').find('span').html('show');
+	}
+	if ($.inArray('filter', skip) === -1) {
+		$("#filter").trigger('clear');
+	}
+	if ($.inArray('search', skip) === -1) {
+		$("#search").trigger('clear');
+	}
 }
 
 function filterMake(str) {
@@ -34,7 +45,9 @@ function filterMake(str) {
 			.find('h3').html("Things you can make with: "+str).end()
 			.find('.clearQuery').show();
 	}
-	else cleanHeader();
+	else {
+		cleanHeader();
+	}
 }
 
 function filterSearch(str) {
@@ -47,17 +60,23 @@ function filterSearch(str) {
 				.find('h3').html("Elements found with: "+str).end()
 				.find('.clearQuery').show();
 		}
-		else $library.find('h3').html("Nothing found");
+		else {
+			$library.find('h3').html("Nothing found");
+		}
 	}
-	else cleanHeader();
+	else {
+		cleanHeader();
+	}
 }
 
 
 function buildMake(obj, str) {
 	var n, items = [];
-	for(n in obj) {
-		if (obj[n].composition.indexOf(str) > -1) items.push(n);
-	}
+	_.each(obj, function(d, i) {
+		if (d.composition.indexOf(str) > -1) {
+			items.push(i);
+		}
+	});
 	return items.join(', ');
 }
 
@@ -67,7 +86,9 @@ var CookieClass = function() {
 	this.imported = false;
 
 	this.set = function(name) {
-		if (!$.cookie(this.name)) $.cookie(this.name, name);
+		if (!$.cookie(this.name)) {
+			$.cookie(this.name, name);
+		}
 
 		var savedArray = $.cookie(this.name).split('|');
 		savedArray.push(name);
@@ -78,7 +99,9 @@ var CookieClass = function() {
 		update();
 	};
 	this.getAll = function() {
-		if (!$.cookie(this.name) && !getQueryOption('import')) return [];
+		if (!$.cookie(this.name) && !getQueryOption('import')) {
+			return [];
+		}
 		if(getQueryOption('import') && !this.imported) {
 			$.cookie(this.name, getQueryOption('import').split(',').join('|'));
 			this.imported = true;
@@ -86,29 +109,33 @@ var CookieClass = function() {
 
 		var savedArray = $.cookie(this.name).split('|');
 
-		if (isNaN(parseInt(savedArray[0]))) {
+		if (isNaN(parseInt(savedArray[0], 10))) {
 			/*! update old cookie format */
-			var newArray = [];
-			for(i=0;i<savedArray.length;i++) {
-				var itemId = names.indexOf(savedArray[i]);
+			var newArray = [], itemId;
+			_.each(savedArray, function(d) {
+				itemId = names.indexOf(d);
 				newArray.push(itemId);
-			}
-			if (savedArray.length == newArray.length) {
+			});
+			if (savedArray.length === newArray.length) {
 				$.cookie(this.name, newArray.join('|'));
 				savedArray = newArray;
 			}
 		}
 
-		savedArray = $.map(savedArray, function(n) { return parseInt(n); })
+		savedArray = $.map(savedArray, function(n) { return parseInt(n, 10); });
 		completedCount = savedArray.length;
 		update();
 		return savedArray;
 	};
 	this.remove = function(name) {
-		if (!$.cookie(this.name)) return false;
+		if (!$.cookie(this.name)) {
+			return false;
+		}
 
 		var savedArray = $.cookie(this.name).split('|');
-		if ($.inArray(name, savedArray) > -1) savedArray.splice($.inArray(name, savedArray), 1);
+		if ($.inArray(name, savedArray) > -1) {
+			savedArray.splice($.inArray(name, savedArray), 1);
+		}
 		savedArray = savedArray.unique();
 		$.cookie(this.name, savedArray.join('|'));
 
@@ -125,11 +152,15 @@ var CookieClass = function() {
 		var filtered = $library.find('h3').html().indexOf('with') > -1;
 		if (completedCount) {
 			$('#completedOptions').show();
-			if(!filtered) $library.find('h3').html('Remaining Elements');
+			if(!filtered) {
+				$library.find('h3').html('Remaining Elements');
+			}
 		}
 		else {
 			$('#completedOptions').hide();
-			if(!filtered) $library.find('h3').html('&nbsp;');
+			if(!filtered) {
+				$library.find('h3').html('&nbsp;');
+			}
 		}
 		$("#completedCount").find('span').html(completedCount);
 	};
@@ -138,9 +169,9 @@ var CookieClass = function() {
 $(function(){
 	$library = $('#library');
 	lahCookie = new CookieClass();
-	$.getJSON('assets/base.json', function (data) {
+	$.getJSON('assets/data/base.json', function (data) {
 		base = data.base;
-		$.getJSON('assets/names.json', function (name) {
+		$.getJSON('assets/data/names.json', function (name) {
 
 			names = name.lang;
 
@@ -152,25 +183,50 @@ $(function(){
 					children = [],
 					origin = [];
 
+				_.each(base, function(d, i) {
+
+					console.log(d,i);
+					children = [];
+					if(i < 4) {
+						parents.push([]);
+					}
+
+					_.each(base, function(d2,i2) {
+						origin = [];
+						_.each(d2, function(d3,i3) {
+							if (d2[i3][0] === i || d2[i3][1] === i) {
+								
+							}
+						});
+					});
+				});
+
 				for (i=0;i<base.length;i++) {
 					/*! construct working method */
 					children = [];
-					if(i < 4) parents.push([]);
+					if(i < 4) {
+						parents.push([]);
+					}
 					for (ii = 4; ii < base.length; ii++) {
 						origin = [];
 						for (jj = 0; jj < base[ii].length; jj++){
-							if (base[ii][jj][0] == i || base[ii][jj][1] == i) children.push(names[ii]);
+							if (base[ii][jj][0] === i || base[ii][jj][1] === i) {
+								children.push(names[ii]);
+							}
 							origin.push(names[base[ii][jj][0]]+" + "+names[base[ii][jj][1]]);
 						}
-						if(i >= 4) parents.push(origin);
+						if(i >= 4) {
+							parents.push(origin);
+						}
 					}
 
 					/*! filter out unwanted options and add to the library */
-					if($.inArray(i, candyPack) == -1) {
+					if($.inArray(i, candyPack) === -1) {
+						console.log(children.length );
 						lahSaved = $.inArray(i,lahCookie.getAll()) > -1;
 						insert += '<li id="'+i+'" title="'+names[i]+'" class="item thumbnail'+(!children.length ? ' finalElement' : '')+(lahSaved ? ' completed' : '')+'" data-composition="'+parents[i].join(';')+'" data-make="'+children.join(', ')+'">\n';
-						insert += '\t<div class="buttons"><a href="#" class="info"><i class="icon-eye-open"></i></a><a href="#" title="mark as completed" class="adder"></a><a href="#" title="things you can make with..." class="filter'+(children.length ? '' : ' disabled')+'">'+(children.length ? '<i class="icon-external-link-sign"></i>' : '')+'</a></div>\n';
-						insert += '\t<div class="image"><img src="assets/blank_icon.png" data-src="http://littlealchemy.com/img/base/'+(i+1)+'.png"/></div>\n';
+						insert += '\t<div class="buttons"><a href="#" class="info"><i class="fa fa-eye"></i></a><a href="#" title="mark as completed" class="adder"></a><a href="#" title="things you can make with..." class="filter'+(children.length ? '' : ' disabled')+'">'+(children.length ? '<i class="fa fa-external-link-square"></i>' : '')+'</a></div>\n';
+						insert += '\t<div class="image"><img src="assets/images/blank_icon.png" data-src="http://littlealchemy.com/img/base/'+(i+1)+'.png"/></div>\n';
 						insert += '\t<h5>'+names[i]+'</h5>\n';
 						insert += '</li>\n';
 					}
@@ -221,13 +277,15 @@ $(function(){
 		$("header h3").html(base.length +' elements');
 	});*/
 
-	if (getQueryOption('type') == 'iframe') {
+	if (getQueryOption('type') === 'iframe') {
 
 		if(!getQueryOption('version')) {
 			$('#reloader').find('span').html('You are using an old version of the bookmarklet. Please remove it from your bookmarks bar and drag again<h5>'+$('blockquote').find('h5').html()+'</h5>');
 		} else {
 			setTimeout(function() {
-				if($('#reloader').is(':visible')) $('#reloader').fadeOut();
+				if($('#reloader').is(':visible')) {
+					$('#reloader').fadeOut();
+				}
 			}, 7500);
 		}
 		$('#reloader').show();
@@ -269,7 +327,7 @@ $(function(){
 
 	$("#filter")
 		.on('keydown', function(e) {
-			if (e.keyCode == 13 || e.which == 13) {
+			if (e.keyCode === 13 || e.which === 13) {
 				filterMake($(this).val());
 				$(this).focus();
 			}
@@ -278,7 +336,7 @@ $(function(){
 
 	$("#search")
 		.on('keydown', function(e) {
-			if (e.keyCode == 13 || e.which == 13) {
+			if (e.keyCode === 13 || e.which === 13) {
 				filterSearch($(this).val());
 				$(this).focus();
 			}
@@ -310,7 +368,9 @@ $(function(){
 			$this.find('span').html('Are you sure?');
 
 			setTimeout(function() {
-				if (!$this.hasClass('btn-light')) $this.toggleClass('btn-light').toggleClass('btn-danger').find('span').html('reset completed');
+				if (!$this.hasClass('btn-light')) {
+					$this.toggleClass('btn-light').toggleClass('btn-danger').find('span').html('reset completed');
+				}
 			}, 3000);
 		}
 		else if($this.hasClass('btn-danger')) {
@@ -322,8 +382,12 @@ $(function(){
 
 	$("#hideFinal").on('click', function () {
 		$('.clearable').trigger('clear');
-		if ($("#hideFinal:checked").length) $("div.finalElement").hide();
-		else $("div.finalElement").show();
+		if ($("#hideFinal:checked").length) {
+			$("div.finalElement").hide();
+		}
+		else {
+			$("div.finalElement").show();
+		}
 	});
 
 	$(document).on('click', '.alert .close', function() {
@@ -331,7 +395,7 @@ $(function(){
 	});
 
 	$.dataSelector('!*', function(data, value){
-		return data.indexOf(value.toLowerCase()) == -1;
+		return data.indexOf(value.toLowerCase()) === -1;
 	});
 });
 

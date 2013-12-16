@@ -1,0 +1,29 @@
+{
+  "name": "Little Alchemy Helper",
+  "version": "1.2",
+  "authors": [
+    "Gil Barbara <gilbarbara@gmail.com>"
+  ],
+  "description": "Interactive helper app for the game Little Alchemy",
+  "main": "assets/js/app.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "~1.5.1",
+    "jquery": "~1.*",
+    "jquery.cookie": "~1.4.0",
+    "unveil": "~1.3.0",
+    "data-selector": "https://github.com/gilbarbara/data-selector.git",
+    "jquery.fn": "https://github.com/padolsey/jquery.fn.git",
+    "bootstrap": "~3.0.3",
+    "respond": "~1.2.0",
+    "lesshat": "~2.0.11",
+    "font-awesome": "latest",
+    "backbone": "~1.1.0"
+  }
+}

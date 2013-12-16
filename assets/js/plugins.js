@@ -1,3 +1,9 @@
+/* jshint disable */
+/**
+ * Helper functions
+ * @module plugins
+ */
+
 Array.prototype.unique = function () {
 	var vals, uniques, i, val;
 
@@ -12,365 +18,9 @@ Array.prototype.unique = function () {
 	return uniques;
 };
 
-/**
- * jQuery Unveil
- * A very lightweight jQuery plugin to lazy load images
- * http://luis-almeida.github.com/unveil
- *
- * Licensed under the MIT license.
- * Copyright 2013 Luís Almeida
- * https://github.com/luis-almeida
- */
-
-;(function($) {
-
-  $.fn.unveil = function(threshold) {
-
-    var $w = $(window),
-        th = threshold || 0,
-        retina = window.devicePixelRatio > 1,
-        attrib = retina? "data-src-retina" : "data-src",
-        images = this,
-        loaded,
-        inview,
-        source;
-
-    this.one("unveil", function() {
-      source = this.getAttribute(attrib);
-      source = source || this.getAttribute("data-src");
-      if (source) this.setAttribute("src", source);
-    });
-
-    function unveil() {
-      inview = images.filter(function() {
-        var $e = $(this),
-            wt = $w.scrollTop(),
-            wb = wt + $w.height(),
-            et = $e.offset().top,
-            eb = et + $e.height();
-
-        return eb >= wt - th && et <= wb + th;
-      });
-
-      loaded = inview.trigger("unveil");
-      images = images.not(loaded);
-    }
-
-    $w.scroll(unveil);
-    $w.resize(unveil);
-
-    unveil();
-
-    return this;
-
-  };
-
-})(jQuery);
-
-/**
- * jQuery.fn.sortElements
- * --------------
- * @author James Padolsey (http://james.padolsey.com)
- * @version 0.11
- * @updated 18-MAR-2010
- * --------------
- * @param Function comparator:
- *   Exactly the same behaviour as [1,2,3].sort(comparator)
- *
- * @param Function getSortable
- *   A function that should return the element that is
- *   to be sorted. The comparator will run on the
- *   current collection, but you may want the actual
- *   resulting sort to occur on a parent or another
- *   associated element.
- *
- *   E.g. $('td').sortElements(comparator, function(){
- *      return this.parentNode;
- *   })
- *
- *   The <td>'s parent (<tr>) will be sorted instead
- *   of the <td> itself.
- */
-jQuery.fn.sortElements = (function(){
-
-	var sort = [].sort;
-
-	return function(comparator, getSortable) {
-
-		getSortable = getSortable || function(){return this;};
-
-		var placements = this.map(function(){
-
-			var sortElement = getSortable.call(this),
-				parentNode = sortElement.parentNode,
-
-			// Since the element itself will change position, we have
-			// to have some way of storing it's original position in
-			// the DOM. The easiest way is to have a 'flag' node:
-				nextSibling = parentNode.insertBefore(
-					document.createTextNode(''),
-					sortElement.nextSibling
-				);
-
-			return function() {
-
-				if (parentNode === this) {
-					throw new Error(
-						"You can't sort elements if any one is a descendant of another."
-					);
-				}
-
-				// Insert before flag:
-				parentNode.insertBefore(this, nextSibling);
-				// Remove flag:
-				parentNode.removeChild(nextSibling);
-
-			};
-
-		});
-
-		return sort.call(this, comparator).each(function(i){
-			placements[i].call(getSortable.call(this));
-		});
-
-	};
-
-})();
-
-/*
- * Data Selector 1.1
- * April 27, 2010
- * Corey Hart http://www.codenothing.com
- */
-(function( $, undefined ){
-
-	// Globals
-	var name, value, condition, original, eqIndex, cache = {}, special = {},
-		rSpecial = /\[(.*?)\]$/,
-		BasicConditions = {
-			'$': true,
-			'!': true,
-			'^': true,
-			'*': true,
-			'<': true,
-			'>': true,
-			'~': true
-		};
-
-	function parseQuery( query ) {
-		original = query;
-
-		if ( cache[ original ] ) {
-			name = cache[ original ].name;
-			value = cache[ original ].value;
-			condition = cache[ original ].condition;
-			eqIndex = cache[ original ].eqIndex;
-			return true;
-		}
-
-		// Find the first instance of equal sign for name=val operations
-		eqIndex = query.indexOf( '=' );
-		if ( eqIndex > -1 ) {
-			name = query.substr( 0, eqIndex );
-			value = query.substr( eqIndex + 1 ) || null;
-		} else {
-			name = query;
-			value = null;
-		}
-
-		// Store condition (not required) for comparison
-		condition = name.charAt( name.length - 1 );
-
-		if ( BasicConditions[ condition ] === true ) {
-			name = name.substr( 0, name.length - 1 );
-		}
-		else if ( condition === ']' ) {
-			condition = rSpecial.exec( name )[ 1 ];
-			name = name.replace( rSpecial, '' );
-		}
-
-		// If >=, <=, or !! is passed, add to condition
-		if ( value && ( condition === '<' || condition === '>' ) && value.charAt(0) === '=' ) {
-			value = value.substr( 1 );
-			condition = condition + '=';
-		}
-		// If regex condition passed, store regex into the value var
-		else if ( condition === '~' ) {
-			value = new RegExp(
-				value.substr( 1, value.lastIndexOf('/') - 1 ), 
-				value.split('/').pop()
-			);
-		}
-		else if ( value && value.substr( 0, 2 ) === '==' ) {
-			condition = '===';
-			value = value.substr( 2 );
-		}
-
-		// Expand name to allow for multiple levels
-		name = name.split('.');
-
-		// Cache Results
-		cache[ original ] = {
-			name: name,
-			value: value,
-			condition: condition,
-			eqIndex: eqIndex
-		};
-	}
-
-	$.expr[':'].data = function( elem, index, params, group ) {
-		if ( elem === undefined || ! params[3] || params[3] == '' ) {
-			return false;
-		}
-		else if ( original !== params[3] ) {
-			parseQuery( params[3] );
-		}
-
-		// Grab bottom most level data
-		for ( var i = -1, l = name.length, data; ++i < l; ) {
-			if ( ( data = data === undefined ? $(elem).data(name[i] ) : data[ name[i] ] ) === undefined || data === null ) {
-				return false;
-			}
-		}
-
-		// No comparison passed, just looking for existence (which was found at this point)
-		if ( eqIndex === -1 ) {
-			return true;
-		}
-
-		switch ( condition ) {
-			// Not equal to
-			case '!': return data.toString() !== value;
-			// Starts with
-			case '^': return data.toString().indexOf( value ) === 0;
-			// Ends with
-			case '$': return data.toString().substr( data.length - value.length ) === value;
-			// Contains
-			case '*': return data.toString().indexOf( value ) !== -1;
-			// Greater Than (or equal to)
-			case '>': return data > value;
-			case '>=': return data >= value;
-			// Less Than (or equal to)
-			case '<': return data < value;
-			case '<=': return data <= value;
-			// Boolean Check
-			case '===': return data === ( value === 'false' ? false : true );
-			// Regex Matching
-			case '~': return value.test( data.toString() );
-			// Defaults to either special user defined function, or simple '=' comparison
-			default: return special[ condition ] ?
-				special[ condition ].call( elem, data, value, index, params, group ) : ( data && data.toString() === value );
-		}
-	};
-
-	// Give developers ability to attach their own special data comparison function
-	$.dataSelector = function( o, fn ) {
-		if ( $.isFunction( fn ) ) {
-			special[ o ] = fn;
-		} else {
-			$.extend( special, o || {} );
-		}
-	};
-
-})( jQuery );
-
-
-/*!
- * jQuery Cookie Plugin v1.3.1
- * https://github.com/carhartl/jquery-cookie
- *
- * Copyright 2013 Klaus Hartl
- * Released under the MIT license
- */
-(function (factory) {
-	if (typeof define === 'function' && define.amd && define.amd.jQuery) {
-		// AMD. Register as anonymous module.
-		define(['jquery'], factory);
-	} else {
-		// Browser globals.
-		factory(jQuery);
-	}
-}(function ($) {
-
-	var pluses = /\+/g;
-
-	function raw(s) {
-		return s;
-	}
-
-	function decoded(s) {
-		return decodeURIComponent(s.replace(pluses, ' '));
-	}
-
-	function converted(s) {
-		if (s.indexOf('"') === 0) {
-			// This is a quoted cookie as according to RFC2068, unescape
-			s = s.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
-		}
-		try {
-			return config.json ? JSON.parse(s) : s;
-		} catch(er) {}
-	}
-
-	var config = $.cookie = function (key, value, options) {
-
-		// write
-		if (value !== undefined) {
-			options = $.extend({}, config.defaults, options);
-
-			if (typeof options.expires === 'number') {
-				var days = options.expires, t = options.expires = new Date();
-				t.setDate(t.getDate() + days);
-			}
-
-			value = config.json ? JSON.stringify(value) : String(value);
-
-			return (document.cookie = [
-				encodeURIComponent(key), '=', config.raw ? value : encodeURIComponent(value),
-				options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-				options.path    ? '; path=' + options.path : '',
-				options.domain  ? '; domain=' + options.domain : '',
-				options.secure  ? '; secure' : ''
-			].join(''));
-		}
-
-		// read
-		var decode = config.raw ? raw : decoded;
-		var cookies = document.cookie.split('; ');
-		var result = key ? undefined : {};
-		for (var i = 0, l = cookies.length; i < l; i++) {
-			var parts = cookies[i].split('=');
-			var name = decode(parts.shift());
-			var cookie = decode(parts.join('='));
-
-			if (key && key === name) {
-				result = converted(cookie);
-				break;
-			}
-
-			if (!key) {
-				result[name] = converted(cookie);
-			}
-		}
-
-		return result;
-	};
-
-	config.defaults = {};
-
-	$.removeCookie = function (key, options) {
-		if ($.cookie(key) !== undefined) {
-			$.cookie(key, '', $.extend(options, { expires: -1 }));
-			return true;
-		}
-		return false;
-	};
-
-}));
-
 (function($) {
 	$.fn.tooltip = function () {
-		$tooltip = $("#tooltip");
+		var $tooltip = $("#tooltip");
 		return this.each(function() {
 			var $this = $(this);
 			function fillTooltip(e, $el) {
@@ -387,8 +37,12 @@ jQuery.fn.sortElements = (function(){
 			if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
 				$this.find('.info').on("click", function(e) {
 					e.preventDefault();
-					if(!$('#tooltip').is(':visible') || $tooltip.find('h4').text() != $this.find('h5').text()) fillTooltip(e, $this);
-					else $('#tooltip').hide();
+					if(!$('#tooltip').is(':visible') || $tooltip.find('h4').text() !== $this.find('h5').text()) {
+						fillTooltip(e, $this);
+					}
+					else {
+						$('#tooltip').hide();
+					}
 				});
 			}
 			else {
@@ -409,7 +63,7 @@ jQuery.fn.sortElements = (function(){
 	$.fn.clearSearch = function(options) {
 		var settings = $.extend({
 			focusAfterClear : true,
-			linkClass : 'icon-remove-sign'
+			linkClass : 'fa fa-times-circle'
 		}, options);
 		return this.each(function() {
 			var $this = $(this), btn;
@@ -423,7 +77,7 @@ jQuery.fn.sortElements = (function(){
 			function clearField() {
 				$this.val('').change();
 				triggerBtn();
-				if (settings.focusAfterClear && arguments[0].type == 'click') {
+				if (settings.focusAfterClear && arguments[0].type === 'click') {
 					$this.focus();
 				}
 				if (typeof (settings.callback) === "function") {
@@ -461,7 +115,7 @@ jQuery.fn.sortElements = (function(){
 		});
 	};
 })(jQuery);
-
+/* jshint ignore:start */
 /* ============================================================
  * bootstrapSwitch v1.3 by Larentis Mattia @spiritualGuru
  * http://www.larentis.eu/switch/
@@ -709,7 +363,7 @@ jQuery.fn.sortElements = (function(){
 			$.error('Method ' + method + ' does not exist!');
 	};
 })(jQuery);
-
+/* jshint ignore:end */
 $(function () {
 	$('.switch')['bootstrapSwitch']();
 });
