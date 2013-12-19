@@ -50,13 +50,13 @@ module.exports = function (grunt) {
 		copy: {
 			main: {
 				files: [
+					{expand: true, flatten: true, src: ['bower_components/jquery/jquery.min.js'], dest: 'assets/dist/', filter: 'isFile'},
 					{expand: true, flatten: true, src: ['bower_components/bootstrap/dist/css/bootstrap.min.css'], dest: 'assets/dist/', filter: 'isFile'},
 					{expand: true, flatten: true, src: ['bower_components/respond/respond.min.js'], dest: 'assets/dist/', filter: 'isFile'},
 					{expand: true, cwd: 'bower_components/', src: ['font-awesome/css/*', 'font-awesome/fonts/*'], dest: 'assets/dist'}
 				]
 			}
 		},
-
 		jshint: {
 			options: {
 				jshintrc: '.jshintrc'

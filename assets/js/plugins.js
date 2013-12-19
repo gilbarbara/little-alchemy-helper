@@ -1,22 +1,7 @@
-/* jshint disable */
 /**
  * Helper functions
  * @module plugins
  */
-
-Array.prototype.unique = function () {
-	var vals, uniques, i, val;
-
-	vals = this;
-	uniques = [];
-	for (i = vals.length; i--;) {
-		val = vals[i];
-		if ($.inArray(val, uniques) === -1) {
-			uniques.unshift(val);
-		}
-	}
-	return uniques;
-};
 
 (function($) {
 	$.fn.tooltip = function () {

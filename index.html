@@ -3,10 +3,7 @@
 	<head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Little Alchemy Helper: Hints and Cheats</title>
-		<meta name="description" content="Interactive app with a bookmarklet to help while you play the game Little Alchemy.
-
-With all 450 elements.
-" />
+		<meta name="description" content="Interactive app with a bookmarklet to help while you play the game Little Alchemy." />
 		<meta name="keywords" content="little alchemy, game, cheats, combinations, helper, app" />
 		<link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
 		<link href="assets/dist/bootstrap.min.css" media="screen" type="text/css" rel="stylesheet"/>
@@ -16,7 +13,7 @@ With all 450 elements.
 		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<script src="assets/dist/respond.min.js"></script>
 		<![endif]-->
-		<meta name="viewport" content="width=544" />
+		<meta name="viewport" content="width=574, user-scalable=no" />
 		<meta property="og:title" content="Little Alchemy Helper: Hints and Cheats" />
 		<meta property="og:description" content="Interactive app with a bookmarklet to help while you play the game Little Alchemy. With all 450 elements." />
 		<meta property="og:url" content="http://littlealchemyhelper.com" />
@@ -36,12 +33,13 @@ With all 450 elements.
 		<div id="help">
 			<div class="container">
 			<h5>click the <i class="fa fa-plus-square"></i> to mark elements as completed</h5>
-			<h5>click the <i class="f1 fa-external-link-square"></i> to view the thing you can do with it</h5>
+			<h5>click the <i class="fa fa-external-link-square"></i> to view the thing you can do with it</h5>
 			</div>
 		</div>
 		<div class="container">
-			<blockquote class="visible-lg">If you are playing the game on a desktop browser, drag the button below to you bookmarks bar and click it while in the game.
-				<h5><a class="label label-purple" href="javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahImport=[];$('.libbox').each(function(i, el) { lahImport.push($(el).prop('class').match(/el(\d+)/)[1]) });lahUrl='http://littlealchemyhelper.com/index.html?type=iframe&version=0.3'+(lahImport.length?'&import='+lahImport.join(','):'');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:50,left:50,width:425,height:$(window).height()-100}).appendTo('body');}else{$('#laHelper').remove();}}})();">LittleAlchemyHelper</a></h5>
+			<blockquote class="hidden-xs">If you are playing the game on a desktop browser, drag the button below to you bookmarks bar and click it while in the game.
+				<h5><a class="label label-primary" href="javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahImport=[];$('.libbox').each(function(i, el) { lahImport.push($(el).prop('class').match(/el(\d+)/)[1]) });lahUrl='http://littlealchemyhelper.com/index.html?type=iframe&version=0.3'+(lahImport.length?'&import='+lahImport.join(','):'');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:50,left:50,width:425,height:$(window).height()-100}).appendTo('body');}else{$('#laHelper').remove();}}})();">LittleAlchemyHelper</a></h5>
+				<a href="#" class="close"><i class="fa fa-times-circle"></i></a>
 			</blockquote>
 			<div id="toolbar">
 				<div id="reloader" class="alert"><button type="button" class="close" data-dismiss="alert">&times;</button><i class="fa fa-exclamation-triangle"></i> <span>Click the bookmarklet twice to reload your discovered elements</span></div>
@@ -61,10 +59,10 @@ With all 450 elements.
 					</div>
 					<div id="completedOptions" class="col-sm-6">
 						<div class="btn-group">
-							<button id="showCompleted" class="btn btn-small btn-light"><i class="fa fa-eye"></i> <span>show</span> completed</button>
-							<button id="resetCompleted" class="btn btn-small btn-light"><i class="fa fa-exclamation-triangle"></i> <span>reset completed</span></button>
+							<button id="showCompleted" class="btn btn-sm btn-default"><i class="fa fa-eye"></i> <span>show</span> completed</button>
+							<button id="resetCompleted" class="btn btn-sm btn-default"><i class="fa fa-exclamation-triangle"></i> <span>reset completed</span></button>
 
-							<button id="completedCount" class="btn btn-small btn-light disabled"><i class="fa fa-check"></i> <span></span> completed</button>
+							<button id="completedCount" class="btn btn-sm btn-default disabled"><i class="fa fa-check"></i> <span></span> completed</button>
 						</div>
 					</div>
 				</div>
@@ -85,7 +83,8 @@ With all 450 elements.
 				<div class="make">§§</div>
 			</div>
 		</div>
-		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+		<script>window.jQuery || document.write('<script src="dist/jquery.min.js"><\/script>')</script>
 		<script type="text/javascript" src="assets/dist/extensions.min.js"></script>
 		<script type="text/javascript" src="assets/dist/app.min.js"></script>
 		<script>

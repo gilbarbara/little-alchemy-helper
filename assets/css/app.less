@@ -205,6 +205,15 @@ header.jumbotron {
 	.make { font-style: italic; }
 }
 
+blockquote {
+	position: relative;
+	a.close {
+		font-size: 14px;
+		position: absolute;
+		top: 0;
+		right: 0; }
+}
+
 div.clear_input {
 	position: relative; }
 
@@ -215,28 +224,41 @@ div.clear_input a {
 	position: absolute;
 	text-decoration: none; }
 
-.btn-purple {
+.btn-primary {
 	background-color: @main-color;
 	border-color: @main-color;
-	color: #FFFFFF;
+	color: #FFF;
+
+	&:hover,
+	&:focus,
+	&:active,
+	&.active {
+		background-color: @main-color;
+		border-color: @main-color;
+		color: #FFF;
+	}
 }
 
-.btn-light {
-	background-color: #F0F0F0;
-	border-color: #CCC;
+.btn-default {
 
-	&:hover {
+	&:hover,
+	&:focus,
+	&:active,
+	&.active {
 		color: @main-color;
 	}
 }
 
-a.disabled { cursor:default; pointer-events:none;}
-
-.label-purple {
+.label-primary {
 	background-color: @main-color;
 
 	&:hover { background-color: @main-color; }
 }
+
+
+a.disabled { cursor:default; pointer-events:none;}
+
+
 
 #completedCount.btn.disabled {
 	color: @main-color;
@@ -245,7 +267,7 @@ a.disabled { cursor:default; pointer-events:none;}
 
 @media (max-width:768px) {
 	.page-footer, #help { padding-left: 20px; padding-right: 20px; }
-	#library { padding-left: 20px; padding-right: 0; }
+	#library { padding-right: 0; }
 
 	header.jumbotron { background-image: none; }
 
@@ -265,4 +287,8 @@ a.disabled { cursor:default; pointer-events:none;}
 	.clearQuery { visibility: hidden; }
 
 	#library h3 { margin-top: 15px; }
+}
+
+@media screen and (max-width: 1000px) {
+	.container { width: 100%; }
 }
