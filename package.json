@@ -2,7 +2,7 @@
 	"name": "little_alchemy",
 	"title": "Little Alchemy Helper",
 	"description": "Interactive helper app for the game Little Alchemy",
-	"version": "0.1.0",
+	"version": "2.0",
 	"main": "Gruntfile.js",
 	"devDependencies": {
 		"grunt": "~0.4.1",

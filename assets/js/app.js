@@ -241,7 +241,6 @@ $(function(){
 	});
 
 	if (getQueryOption('type') === 'iframe') {
-
 		if(!getQueryOption('version')) {
 			$('#reloader').find('span').html('You are using an old version of the bookmarklet. Please remove it from your bookmarks bar and drag again<h5>'+$('blockquote').find('h5').html()+'</h5>');
 		} else {

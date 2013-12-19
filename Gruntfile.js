@@ -19,8 +19,6 @@ module.exports = function (grunt) {
 			extensions: {
 				src: [
 					'bower_components/underscore/underscore.js',
-					'bower_components/jquery/jquery.js',
-					'bower_components/backbone/backbone.js',
 					'assets/js/mixins.js',
 					'assets/js/plugins.js',
 					'bower_components/data-selector/src/jquery.data-selector.js',

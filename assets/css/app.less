@@ -255,9 +255,19 @@ div.clear_input a {
 	&:hover { background-color: @main-color; }
 }
 
-
 a.disabled { cursor:default; pointer-events:none;}
 
+
+.alert {
+	color: @main-color;
+	background-color: lighten(@main-color, 36%);
+	border-color: lighten(@main-color, 32%);
+
+	.close {
+		color: @main-color;
+		opacity: 0.7;
+	}
+}
 
 
 #completedCount.btn.disabled {
@@ -277,8 +287,6 @@ a.disabled { cursor:default; pointer-events:none;}
 	#library .item a { display: block; }
 
 	#reloader {
-		margin-left: 15px;
-		margin-right: 15px;
 	}
 }
 
