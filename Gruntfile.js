@@ -23,8 +23,7 @@ module.exports = function (grunt) {
 					'assets/js/plugins.js',
 					'bower_components/data-selector/src/jquery.data-selector.js',
 					'bower_components/jquery.fn/sortElements/jquery.sortElements.js',
-					'bower_components/jquery.cookie/jquery.cookie.js',
-					'bower_components/unveil/jquery.unveil.js'
+					'bower_components/jquery.cookie/jquery.cookie.js'
 				],
 				dest: 'assets/dist/extensions.js'
 			}

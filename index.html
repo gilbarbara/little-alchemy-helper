@@ -22,13 +22,8 @@
 	<body>
 		<header class="jumbotron">
 			<h1>Little Alchemy Helper</h1>
-			<h4>A tool to help you with the game <a href="http://littlealchemy.com/" target="_blank">Little Alchemy</a>. With all <span id="elementsCount">450</span> elements</h4>
+			<h4>A tool to help you with the game <a href="http://littlealchemy.com/" target="_blank">Little Alchemy</a> with all <span id="elementsCount"></span> elements</h4>
 			<button id="helpBtn"><i class="fa fa-question"></i> Help</button>
-			<div class="sharing">
-				<span class='st_facebook_hcount' displayText='Facebook'></span>
-				<span class='st_twitter_hcount' displayText='Tweet'></span>
-				<span class='st_googleplus_hcount' displayText='Google +'></span>
-			</div>
 		</header>
 		<div id="help">
 			<div class="container">
@@ -38,7 +33,7 @@
 		</div>
 		<div class="container">
 			<blockquote class="hidden-xs">If you are playing the game on a desktop browser, drag the button below to you bookmarks bar and click it while in the game.
-				<h5><a class="label label-primary" href="javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahImport=[];$('.libbox').each(function(i, el) { lahImport.push($(el).prop('class').match(/el(\d+)/)[1]) });lahUrl='http://littlealchemyhelper.com/index.html?type=iframe&version=0.3'+(lahImport.length?'&import='+lahImport.join(','):'');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:50,left:50,width:425,height:$(window).height()-100}).appendTo('body');}else{$('#laHelper').remove();}}})();">LittleAlchemyHelper</a></h5>
+				<h5><a class="label label-primary" href="javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahUrl='http://littlealchemyhelper.com/index.html?type=iframe&version=0.4&import='+game.progress.sort(function(a,b){return a-b;}).join(',');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:50,left:50,width:425,height:$(window).height()-100}).appendTo('body');}else{$('#laHelper').remove();}}})();">LittleAlchemyHelper</a></h5>
 				<a href="#" class="close"><i class="fa fa-times-circle"></i></a>
 			</blockquote>
 			<div id="toolbar">
@@ -96,7 +91,5 @@
 			ga('create', 'UA-1218829-10', 'littlealchemyhelper.com');
 			ga('send', 'pageview');
 		</script>
-		<script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-		<script type="text/javascript">stLight.options({publisher: "452ccfe8-d195-41d7-b41c-74566e9205a7", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
 	</body>
 </html>

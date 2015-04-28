@@ -20,6 +20,7 @@ var App = {
 	$library: null,
 	$item: null,
 	release: 114,
+	bookmarkletVersion: '0.4',
 
 	getQueryOption: function (name) {
 		name = name.replace(/[\[]/, "\\\\[").replace(/[\]]/, "\\\\]");
@@ -49,9 +50,8 @@ var App = {
 	filterMake: function (str) {
 		if (str) {
 			this.cleanQueries(['filter']);
-			this.$item.show();
+			this.$item.filter(':not(.completed)').show();
 			this.$item.filter(':data(composition[!*]=' + str + ')').hide().end();
-			this.$item.filter(':visible').find('img').trigger('unveil');
 			this.$library
 				.find('h3').html("Things you can make with: " + str).end()
 				.find('.clearQuery').show();
@@ -66,7 +66,6 @@ var App = {
 			this.cleanQueries(['search']);
 			this.$item.hide();
 			this.$item.find("h5:contains('" + str.toLowerCase() + "')").parent().show();
-			this.$item.filter(':visible').find('img').trigger('unveil');
 			if (this.$item.filter(':visible').size()) {
 				this.$library
 					.find('h3').html("Elements found with: " + str).end()
@@ -93,12 +92,12 @@ var App = {
 	},
 
 	render: function () {
-		var html = [],
+		var html    = [],
 			options = {};
 
 		if (_.size(this.elements)) {
 			_.each(this.elements, function (d, i) {
-				options.lahSaved = $.inArray(i, this.lahCookie.getAll()) > -1;
+				options.lahSaved = $.inArray(+i, this.lahCookie.getAll()) > -1;
 				options.parents = [];
 				_.map(d.parents, function (p) {
 					options.parents.push(
@@ -111,7 +110,7 @@ var App = {
 					return App.names[d];
 				});
 
-				html.push('<li id="' + i + '" title="' + d.name + '" class="item thumbnail' + (!d.children.length ? ' finalElement' : '') + (options.lahSaved ? ' completed' : '') + '" data-composition="' + (d.parents ? options.parents.join(';') : '') + '" data-make="' + options.children.join(', ') + '">');
+				html.push('<li id="' + i + '" title="' + d.name + '" class="item thumbnail' + (!d.children.length ? ' finalElement' : '') + (options.lahSaved || d.prime ? ' completed' : '') + '" data-composition="' + (d.parents ? options.parents.join(';') : '') + '" data-make="' + options.children.join(', ') + '">');
 				html.push('<div class="buttons">');
 				html.push('<a href="#" class="info"><i class="fa fa-eye"></i></a>');
 				html.push('<a href="#" title="mark as completed" class="adder"></a>');
@@ -132,7 +131,6 @@ var App = {
 			return $(a).prop('title') > $(b).prop('title') ? 1 : -1;
 		});
 		this.$item.tooltip();
-		this.$item.find('img').unveil();
 
 		this.$library.find('h3').html(this.completedCount ? 'Remaining Elements' : '&nbsp;');
 
@@ -156,7 +154,7 @@ var Cookies = function () {
 		savedArray = _.uniq(savedArray);
 		$.cookie(this.name, savedArray.join('|'));
 
-		App.completedCount = savedArray.length;
+		App.completedCount = savedArray.length + 4;
 		update();
 	};
 	this.getAll = function () {
@@ -186,7 +184,7 @@ var Cookies = function () {
 		savedArray = $.map(savedArray, function (n) {
 			return parseInt(n, 10);
 		});
-		App.completedCount = savedArray.length;
+		App.completedCount = savedArray.length + 4;
 		update();
 		return savedArray;
 	};
@@ -202,7 +200,7 @@ var Cookies = function () {
 		savedArray = _.uniq(savedArray);
 		$.cookie(this.name, savedArray.join('|'));
 
-		App.completedCount = savedArray.length;
+		App.completedCount = savedArray.length + 4;
 		update();
 	};
 	this.reset = function () {
@@ -268,13 +266,14 @@ $(function () {
 			images   = App.images,
 			elements = App.elements;
 
-		$('#elementsCount').text(base.length);
+		$('#elementsCount').text(_.size(base));
 
 		_.each(base, function (b1, i1) {
 			elements[i1] = {};
 
 			elements[i1].name = names[i1];
 			elements[i1].image = images[i1];
+			elements[i1].prime = b1.prime;
 
 			if (!b1.prime) {
 				elements[i1].parents = [];
@@ -299,7 +298,7 @@ $(function () {
 	});
 
 	if (App.getQueryOption('type') === 'iframe') {
-		if (!App.getQueryOption('version')) {
+		if (!App.getQueryOption('version') || App.getQueryOption('version') !== App.bookmarkletVersion) {
 			$('#reloader').find('span').html('You are using an old version of the bookmarklet. Please remove it from your bookmarks bar and drag again<h5>' + $('blockquote').find('h5').html() + '</h5>');
 		}
 		else {
@@ -430,4 +429,8 @@ $(function () {
 	});
 });
 
-/*javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahImport=[];$('.libbox').each(function(i, el) { lahImport.push($(el).prop('class').match(/el(\d+)/)[1]) });lahUrl='http://littlealchemyhelper.com/index.html?type=iframe&version=0.3'+(lahImport.length?'&import='+lahImport.join(','):'');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:50,left:50,width:425,height:$(window).height()-100}).appendTo('body');}else{$('#laHelper').remove();}}})();*/
+/*
+ javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahUrl='http://littlealchemyhelper.com/index.html?type=iframe&version=0.4&import='+game.progress.sort(function(a,b){return a-b;}).join(',');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:50,left:50,width:425,height:$(window).height()-100}).appendTo('body');}else{$('#laHelper').remove();}}})();
+
+ javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahUrl='http://code.gilbarbara.com:88/little_alchemy/index.html?type=iframe&version=0.4&import='+game.progress.sort(function(a,b){return a-b;}).join(',');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:50,left:50,width:425,height:$(window).height()-100}).appendTo('body');}else{$('#laHelper').remove();}}})();
+ */
