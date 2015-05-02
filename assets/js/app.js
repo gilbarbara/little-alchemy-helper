@@ -15,7 +15,7 @@ var App = {
 	base: {},
 	names: {},
 	images: {},
-	completedCount: 0,
+	completedCount: 4,
 	lahCookie: null,
 	$library: null,
 	$item: null,
@@ -116,8 +116,13 @@ var App = {
 				html.push('<a href="#" title="mark as completed" class="adder"></a>');
 				html.push('<a href="#" title="things you can make with..." class="filter' + (d.children.length ? '' : ' disabled') + '">' + (d.children.length ? '<i class="fa fa-external-link-square"></i>' : '') + '</a>');
 				html.push('</div>');
-				html.push('<div class="image"><img src="data:image/png;base64,' + d.image + '"/></div>');
+				html.push('<div class="image">');
+				html.push('<img src="data:image/png;base64,' + d.image + '"/>');
+				html.push('</div>');
 				html.push('<h5>' + d.name + '</h5>');
+				if (options.children.length) {
+					html.push('<span class="count">' + options.children.length + '</span>');
+				}
 				html.push('</li>');
 			}.bind(this));
 		}
@@ -133,9 +138,9 @@ var App = {
 		this.$item.tooltip();
 
 		this.$library.find('h3').html(this.completedCount ? 'Remaining Elements' : '&nbsp;');
+		$("#completedCount").find('span').html(App.completedCount);
 
 		$("header h3").html(this.base.length + ' elements');
-
 	}
 };
 
@@ -206,23 +211,17 @@ var Cookies = function () {
 	this.reset = function () {
 		$.removeCookie(this.name);
 		this.cookie = undefined;
-		App.completedCount = 0;
+		App.completedCount = 4;
 		update();
 	};
 	var update = function () {
 		var filtered = App.$library.find('h3').html().indexOf('with') > -1;
-		if (App.completedCount) {
-			$('#completedOptions').show();
-			if (!filtered) {
-				App.$library.find('h3').html('Remaining Elements');
-			}
+
+		$('#completedOptions').show();
+		if (!filtered) {
+			App.$library.find('h3').html('Remaining Elements');
 		}
-		else {
-			$('#completedOptions').hide();
-			if (!filtered) {
-				App.$library.find('h3').html('&nbsp;');
-			}
-		}
+
 		$("#completedCount").find('span').html(App.completedCount);
 	}.bind(this);
 };
