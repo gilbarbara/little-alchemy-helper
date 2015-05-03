@@ -4,11 +4,8 @@
 
   &__content {
     background-color: #fff;
-    flex: 1 0 auto;
     min-height: 100%;
     position: relative;
-    transition: margin-left 0.3s ease, left 0.3s ease;
-    will-change: margin-left, left;
     z-index: 5;
   }
 

@@ -1,5 +1,4 @@
-var React        = require('react/addons'),
-	NPMPackage   = require('../../../../package.json');
+var React        = require('react/addons');
 
 var Header = React.createClass({
 	mixins: [React.addons.PureRenderMixin],
@@ -10,7 +9,7 @@ var Header = React.createClass({
 
 	getDefaultProps: function () {
 		return {
-			elementsCount: 530
+			elementsCount: 500
 		};
 	},
 

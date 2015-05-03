@@ -1,11 +1,13 @@
 .app__library {
+  margin-top: $grid-gutter-width;
   min-height: 300px;
   position: relative;
 
   h3 {
     color: $brand-primary;
     font-family: 'Advent Pro', sans-serif;
-    margin: 0 0 15px;
+    margin: 0 0 ($grid-gutter-width);
+    text-align: center;
   }
 
   ul {
@@ -14,6 +16,12 @@
     justify-content: center;
     list-style-type: none;
     padding-left: 0;
+
+    &.filtered {
+      .item.completed {
+        display: block;
+      }
+    }
   }
 
   .item {
@@ -70,7 +78,7 @@
           border-left: 1px solid #CCC;
         }
 
-        &.adder {
+        &.status {
           font-family: FontAwesome;
 
           &:before {
@@ -88,9 +96,13 @@
       opacity: .6;
       display: none;
 
-      a.adder:before {
+      a.status:before {
         content: "\f146";
       }
+    }
+
+    &.hidden {
+      display: none;
     }
   }
 

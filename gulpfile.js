@@ -1,6 +1,6 @@
 var gulp                  = require('gulp'),
     $                     = require('gulp-load-plugins')(),
-    bowerFiles            = require('main-bower-files')(),
+    bowerFiles            = require('main-bower-files'),
     browserify            = require('browserify'),
     browserSync           = require('browser-sync'),
     buffer                = require('vinyl-buffer'),
@@ -151,8 +151,9 @@ gulp.task('media', function () {
 });
 
 gulp.task('fonts', function () {
-    return gulp.src(bowerFiles.concat('app/fonts/**/*'))
-        .pipe($.filter('**/*.{eot,svg,ttf,woff,woff2}'))
+
+    return gulp.src(bowerFiles({}).concat('app/fonts/**/*'))
+        .pipe($.filter(['**/*.{eot,svg,ttf,woff,woff2}', '!**/*glyphicons*']))
         .pipe($.flatten())
         .pipe(gulp.dest(config.dest() + '/styles/fonts'))
         .pipe($.size({

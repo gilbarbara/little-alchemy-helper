@@ -2,7 +2,7 @@ var cookie = require('react-cookie'),
     _      = require('lodash');
 
 var Cookies = {
-    _setCookie: function () {
+    _AddToCookie: function (name) {
         var _cookie = cookie.load(this.appName);
 
         if (!_cookie) {
@@ -14,19 +14,21 @@ var Cookies = {
         savedArray = _.uniq(savedArray);
         cookie.save(this.appName, savedArray.join('|'));
 
-        this.setState({ completedCount: savedArray.length + 4 });
+        return savedArray;
     },
 
     _getCookie: function () {
-        if (!cookie.load(this.name) && !this.getQueryOption('import')) {
-            return [];
-        }
+        var _cookie = cookie.load(this.appName);
+
         if (this.getQueryOption('import') && !this.imported) {
-            cookie.save(this.name, this.getQueryOption('import').split(',').join('|'));
+            cookie.save(this.appName, this.getQueryOption('import').split(',').join('|'));
             this.imported = true;
         }
-
-        var savedArray = cookie.load(this.name).split('|');
+        var savedArray = _.union(_cookie ? _cookie.split('|') : false, _.filter(_.keys(this.state.base), function (k) {
+            if (this.state.base[k].prime) {
+                return +k;
+            }
+        }.bind(this)));
 
         if (isNaN(parseInt(savedArray[0], 10))) {
             /*! update old cookie format */
@@ -34,23 +36,22 @@ var Cookies = {
             _.each(savedArray, function (d) {
                 itemId = this.state.names.indexOf(d);
                 newArray.push(itemId);
-            });
+            }.bind(this));
             if (savedArray.length === newArray.length) {
-                cookie.save(this.name, newArray.join('|'));
+                cookie.save(this.appName, newArray.join('|'));
                 savedArray = newArray;
             }
         }
 
         savedArray = _.map(savedArray, function (n) {
-            return parseInt(n, 10);
+            return +n;
         });
-        this.setState({ completedCount: savedArray.length + 4 });
 
         return savedArray;
     },
 
-    _removeCookie: function (name) {
-        var _cookie = cookie.load(this.name);
+    _removeFromCookie: function (name) {
+        var _cookie = cookie.load(this.appName);
         if (!_cookie) {
             return false;
         }
@@ -60,14 +61,15 @@ var Cookies = {
             savedArray.splice(savedArray.indexOf(name), 1);
         }
         savedArray = _.uniq(savedArray);
-        cookie.save(this.name, savedArray.join('|'));
+        cookie.save(this.appName, savedArray.join('|'));
 
-        this.setState({ completedCount: savedArray.length + 4 });
+        return savedArray;
     },
 
-    _resetCookie: function () {
-        cookie.remove(this.name);
-        this.setState({ completedCount: 4 });
+    _removeCookie: function () {
+        cookie.remove(this.appName);
+
+        return [];
     }
 };
 

@@ -24,8 +24,12 @@ var App = React.createClass({
             images: {},
             elements: {},
             elementsCount: 500,
-            completedCount: 4,
-            libraryTitle: 'All Elements'
+            completed: [],
+            filter: { type: 'descendants' },
+            options: {
+                showAll: false,
+                showCheats: false
+            }
         };
     },
 
@@ -43,8 +47,10 @@ var App = React.createClass({
             AppActions.fetchNames();
         }
         if (_.size(this.state.names) && !_.size(prevState.names)) {
+            var _cookie = this._getCookie();
             this.setState({
                 elements: this.buildElements(),
+                completed: _cookie,
                 ready: true
             });
             AppActions.fetchImages();
@@ -111,11 +117,12 @@ var App = React.createClass({
         images = images || this.state.images;
 
         _.each(state.base, function (b1, i1) {
-            elements[i1] = {};
-
-            elements[i1].name = state.names[i1];
-            elements[i1].image = images[i1];
-            elements[i1].prime = b1.prime;
+            elements[i1] = {
+                id: i1,
+                name: state.names[i1],
+                image: images[i1],
+                prime: b1.prime
+            };
 
             if (!b1.prime) {
                 elements[i1].parents = [];
@@ -135,7 +142,6 @@ var App = React.createClass({
                 });
             });
         });
-
         return elements;
     },
 
@@ -174,10 +180,6 @@ var App = React.createClass({
         else {
             this.cleanHeader();
         }
-
-        this.setState({
-            libraryTitle: 'Things you can make with: ' + str
-        });
     },
 
     filterSearch: function (str) {
@@ -195,32 +197,48 @@ var App = React.createClass({
             else {
                 title = 'Nothing found';
             }
-
-            this.setState({
-                libraryTitle: title
-            });
         }
         else {
             this.cleanHeader();
         }
     },
 
+    _setFilter: function (filter) {
+        this.setState(filter);
+    },
+
+    _setStatus: function (element, remove) {
+        var _completed = this.state.completed.slice(0);
+
+        if (remove) {
+            _.pull(_completed, +element);
+        }
+        else {
+            _completed.push(+element);
+        }
+
+        this.setState({
+            completed: _completed
+        });
+    },
+
     render: function () {
         var output = <Loader/>;
 
         if (this.state.ready) {
-            output = <Library heading={this.state.libraryTitle} names={this.state.names} elements={this.state.elements}
-                              _getCookie={this._getCookie} completedCount={this.state.completedCount}/>;
+            output = <Library names={this.state.names} elements={this.state.elements}
+                              completed={this.state.completed} filter={this.state.filter}
+                              setFilter={this._setFilter} setStatus={this._setStatus}/>;
         }
 
         return (
             <div className="app">
-                <Header/>
+                <Header elementsCount={this.state.elementsCount} />
                 <Help/>
                 <main className="app__content">
                     <div className="app__container">
                         <DesktopAlert/>
-                        <Toolbar completed={this.state.completedCount} />
+                        <Toolbar completed={this.state.completed.length}/>
                         {output}
                     </div>
                 </main>

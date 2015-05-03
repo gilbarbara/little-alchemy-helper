@@ -1,15 +1,19 @@
+@import url(//fonts.googleapis.com/css?family=Advent+Pro:400);
 // Base
 @import 'base/variables';
 @import 'base/bootstrap';
 @import 'base/bootstrap-theme';
 @import 'base/utils';
 
+// Fonts
+@import 'font-awesome/scss/font-awesome';
+
 // Elements
 @import 'elements/loader';
 @import 'elements/header';
 @import 'elements/footer';
 @import 'elements/switch';
-
+@import 'elements/toolbar';
 // Components
 @import 'components/app';
 @import 'components/library';
@@ -41,15 +45,6 @@ body {
     @include sm {
       font-size: 256px;
     }
-  }
-}
-
-#cheats {
-  .switch {
-  }
-  .switch + label {
-    margin-left: 5px;
-    vertical-align: text-bottom;
   }
 }
 

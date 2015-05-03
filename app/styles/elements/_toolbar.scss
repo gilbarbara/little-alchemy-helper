@@ -1,0 +1,12 @@
+.app__toolbar {
+  .row + .row {
+    margin-top: $grid-gutter-width;
+  }
+
+  .switch {
+    + label {
+      margin-left: 5px;
+      vertical-align: text-bottom;
+    }
+  }
+}
