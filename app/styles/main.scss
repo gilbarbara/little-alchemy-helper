@@ -1,0 +1,146 @@
+// Base
+@import 'base/variables';
+@import 'base/bootstrap';
+@import 'base/bootstrap-theme';
+@import 'base/utils';
+
+// Elements
+@import 'elements/loader';
+@import 'elements/header';
+@import 'elements/footer';
+@import 'elements/switch';
+
+// Components
+@import 'components/app';
+@import 'components/library';
+
+.browsehappy {
+  background: #ccc;
+  color: #000;
+  margin: 0.2em 0;
+  padding: 0.2em 0;
+}
+
+body {
+  background-color: #f7f7f7;
+  font-family: Lato, sans-serif;
+  min-height: 100%;
+}
+
+#react {
+  min-height: 100vh;
+}
+
+.not-found {
+  text-align: center;
+
+  h1 {
+    font-size: 128px;
+    margin: 0;
+
+    @include sm {
+      font-size: 256px;
+    }
+  }
+}
+
+#cheats {
+  .switch {
+  }
+  .switch + label {
+    margin-left: 5px;
+    vertical-align: text-bottom;
+  }
+}
+
+#help {
+  background-color: #fcf7ff;
+  border-bottom: 1px solid $brand-primary;
+  display: none;
+  margin: -30px 0 15px;
+
+  h5 {
+    color: #999;
+    margin: 0 0 5px;
+
+    &:first-child {
+      margin-top: 15px;
+    }
+  }
+
+  .container {
+    margin-bottom: 10px;
+  }
+}
+
+#reloader {
+  display: none;
+  margin-bottom: 15px;
+}
+
+#tooltip {
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border-radius: 8px;
+  background-color: #444;
+  color: #FFF;
+  display: none;
+  line-height: 1.3;
+  padding: 16px;
+  position: absolute;
+  width: 200px;
+
+  .image {
+    background-repeat: no-repeat;
+    background-size: 74px;
+    height: 74px;
+    width: 100%;
+  }
+
+  h5 {
+    font-weight: bold;
+    margin: 15px 0 5px;
+  }
+
+  .make {
+    font-style: italic;
+  }
+}
+
+blockquote {
+  position: relative;
+  a.close {
+    font-size: 14px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+div.clear_input {
+  position: relative;
+}
+
+div.clear_input a {
+  color: #CCC;
+  cursor: pointer;
+  font-size: 18px;
+  position: absolute;
+  text-decoration: none;
+}
+
+.alert {
+  color: $brand-primary;
+  background-color: lighten($brand-primary, 36%);
+  border-color: lighten($brand-primary, 32%);
+
+  .close {
+    color: $brand-primary;
+    opacity: 0.7;
+  }
+}
+
+#completedCount.btn.disabled {
+  color: $brand-primary;
+  opacity: .8;
+}

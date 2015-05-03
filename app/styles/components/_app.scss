@@ -1,0 +1,52 @@
+.app {
+  background-color: #f7f7f7;
+  min-height: 100vh;
+
+  &__content {
+    background-color: #fff;
+    flex: 1 0 auto;
+    min-height: 100%;
+    position: relative;
+    transition: margin-left 0.3s ease, left 0.3s ease;
+    will-change: margin-left, left;
+    z-index: 5;
+  }
+
+  &__container {
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 300px;
+    padding: 1.5rem;
+    position: relative;
+    width: inherit;
+
+    @include xl {
+      max-width: 1440px;
+    }
+  }
+
+  &__wrapper {
+    margin: 0 auto;
+    max-width: 640px;
+  }
+
+  &__container {
+    height: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 300px;
+    padding: 1.5rem;
+    position: relative;
+    width: inherit;
+
+    @include xl {
+      max-width: 1440px;
+    }
+  }
+
+  &__wrapper {
+    margin: 0 auto;
+    max-width: 640px;
+  }
+}

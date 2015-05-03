@@ -1,0 +1,107 @@
+.app__library {
+  min-height: 300px;
+  position: relative;
+
+  h3 {
+    color: $brand-primary;
+    font-family: 'Advent Pro', sans-serif;
+    margin: 0 0 15px;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style-type: none;
+    padding-left: 0;
+  }
+
+  .item {
+    background-color: #D8D3C6;
+    display: block;
+    height: 164px;
+    line-height: 1;
+    margin: 0 20px 20px 0;
+    position: relative;
+    text-align: center;
+    width: 110px;
+
+    &.thumbnail {
+      padding: 0;
+    }
+
+    .image {
+      height: 80px;
+      margin: 10px 0;
+      position: relative;
+    }
+
+    h5 {
+      font-weight: bold;
+      margin-bottom: 0;
+    }
+
+    > span {
+      background-color: rgba(0, 0, 0, 0.4);
+      border-radius: 4px;
+      bottom: 0;
+      color: #fff;
+      font-size: 12px;
+      line-height: 1.8rem;
+      position: absolute;
+      right: 0;
+      text-align: center;
+      width: 1.8rem;
+    }
+
+    .buttons {
+      background-color: #EEE;
+      border-bottom: 1px solid #CCC;
+
+      a {
+        color: #222;
+        display: inline-block;
+        height: 24px;
+        padding: 4px 0;
+        vertical-align: middle;
+        width: 33.33%;
+
+        &:not(:first-child) {
+          border-left: 1px solid #CCC;
+        }
+
+        &.adder {
+          font-family: FontAwesome;
+
+          &:before {
+            content: "\f0fe";
+          }
+        }
+
+        &:hover, &:focus {
+          text-decoration: none;
+        }
+      }
+    }
+
+    &.completed {
+      opacity: .6;
+      display: none;
+
+      a.adder:before {
+        content: "\f146";
+      }
+    }
+  }
+
+  a.clearQuery {
+    display: none;
+    position: absolute;
+    right: 20px;
+    top: 4px;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
