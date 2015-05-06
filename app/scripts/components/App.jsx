@@ -25,10 +25,11 @@ var App = React.createClass({
             elements: {},
             elementsCount: 500,
             completed: [],
-            filter: { type: 'descendants' },
+            filter: { type: 'search', value: 'fire' },
             options: {
+                showCompleted: false,
                 showAll: false,
-                showCheats: false
+                showCheats: true
             }
         };
     },
@@ -203,8 +204,9 @@ var App = React.createClass({
         }
     },
 
-    _setFilter: function (filter) {
-        this.setState(filter);
+    _setFilter: function (filters) {
+        filters = filters.value !== undefined && !filters.value.length ? {} : filters;
+        this.setState({ filter: filters });
     },
 
     _setStatus: function (element, remove) {
@@ -222,24 +224,50 @@ var App = React.createClass({
         });
     },
 
+    _setOptions: function (option, status) {
+        var state = {};
+
+        if (option === 'resetCompleted') {
+            this._removeCookie();
+            state.completed = this._primeElements();
+
+            this.setState(state);
+        }
+        else {
+            state[option] = { $set: !this.state.options[option] };
+            state[option] = state[option];
+            var newState = React.addons.update(this.state,
+                { options: state }
+            );
+            this.setState(newState);
+        }
+    },
+
     render: function () {
-        var output = <Loader/>;
+        var output = {
+            library: <Loader/>
+        };
 
         if (this.state.ready) {
-            output = <Library names={this.state.names} elements={this.state.elements}
-                              completed={this.state.completed} filter={this.state.filter}
-                              setFilter={this._setFilter} setStatus={this._setStatus}/>;
+            output.library = <Library names={this.state.names} elements={this.state.elements}
+                                      options={this.state.options}
+                                      completed={this.state.completed} filter={this.state.filter}
+                                      setFilter={this._setFilter} setStatus={this._setStatus}/>;
+
+            output.toolbar = <Toolbar filter={this.state.filter} setFilter={this._setFilter}
+                                      options={this.state.options} setOptions={this._setOptions}
+                                      completedCount={this.state.completed.length}/>;
         }
 
         return (
             <div className="app">
-                <Header elementsCount={this.state.elementsCount} />
+                <Header elementsCount={this.state.elementsCount}/>
                 <Help/>
                 <main className="app__content">
                     <div className="app__container">
                         <DesktopAlert/>
-                        <Toolbar completed={this.state.completed.length}/>
-                        {output}
+                        {output.toolbar}
+                        {output.library}
                     </div>
                 </main>
                 <Footer/>

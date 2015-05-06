@@ -11,7 +11,8 @@
     "data-selector": "https://github.com/gilbarbara/data-selector.git",
     "jquery.fn": "https://github.com/padolsey/jquery.fn.git",
     "font-awesome": "latest",
-    "modernizr": "~2.8.3"
+    "modernizr": "~2.8.3",
+    "bootstrap-switch": "~3.3.2"
   },
   "main": "assets/js/app.js",
   "name": "Little Alchemy Helper"

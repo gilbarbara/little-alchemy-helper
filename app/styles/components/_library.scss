@@ -15,11 +15,26 @@
     flex-wrap: wrap;
     justify-content: center;
     list-style-type: none;
+    min-height: 300px;
     padding-left: 0;
 
-    &.filtered {
+    &.show-completed {
       .item.completed {
-        display: block;
+        display: block !important;
+      }
+    }
+    
+    &.empty {
+      position: relative;
+      
+      &:before {
+        background-color: $brand-primary;
+        color: #fff;
+        content: 'Nothing found';
+        display: inline;
+        font-size: 3rem;
+        height: 90px;
+        padding: 20px;
       }
     }
   }

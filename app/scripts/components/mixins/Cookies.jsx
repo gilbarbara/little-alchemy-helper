@@ -2,6 +2,17 @@ var cookie = require('react-cookie'),
     _      = require('lodash');
 
 var Cookies = {
+    _primeElements: function () {
+        var elements = [];
+        _.map(_.keys(this.state.base), function (k) {
+            if (this.state.base[k].prime) {
+                elements.push(+k);
+            }
+        }.bind(this));
+
+        return elements;
+    },
+
     _AddToCookie: function (name) {
         var _cookie = cookie.load(this.appName);
 
@@ -24,11 +35,8 @@ var Cookies = {
             cookie.save(this.appName, this.getQueryOption('import').split(',').join('|'));
             this.imported = true;
         }
-        var savedArray = _.union(_cookie ? _cookie.split('|') : false, _.filter(_.keys(this.state.base), function (k) {
-            if (this.state.base[k].prime) {
-                return +k;
-            }
-        }.bind(this)));
+
+        var savedArray = _.union(_cookie ? _cookie.split('|') : false, this._primeElements());
 
         if (isNaN(parseInt(savedArray[0], 10))) {
             /*! update old cookie format */

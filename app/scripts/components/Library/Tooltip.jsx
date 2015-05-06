@@ -5,12 +5,17 @@ var Tooltip = React.createClass({
 
     render: function () {
         return (
-            <div id="tooltip">
-                <div className="image">{this.props.image}</div>
-                <h4></h4>
-                <div className="made"></div>
+            <div className={'tooltip' + (this.props.visible ? ' visible' : '')} style={ {
+            top: 0,
+            left: 0
+            } }>
+                <div className="image" style={ {backgroundImage: 'url(' + this.props.image + ')' }}></div>
+                <h4>{this.props.name}</h4>
+
+                <div className="made">{this.props.composition}</div>
                 <h5>can make</h5>
-                <div className="make">§§</div>
+
+                <div className="make">{this.props.make}</div>
             </div>
         );
     }
