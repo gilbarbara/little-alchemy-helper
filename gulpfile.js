@@ -47,7 +47,9 @@ function watchifyTask (options) {
         debug: options.watch,
         packageCache: {}, // required for watchify
         fullPaths: options.watch, // required to be true only for watchify
-        transform: ['reactify'],
+        transform: [
+            ['babelify', { ignore: /bower_components/ }]
+        ],
         extensions: ['.jsx']
     });
 

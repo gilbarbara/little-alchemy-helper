@@ -1,9 +1,13 @@
 .app__header {
-  background: $brand-primary url("#{$media-path}/icon.png") no-repeat 20px center;
-  background-size: 96px;
+  background-color: $brand-primary;
   color: #fff;
   padding: 30px 30px 50px;
   position: relative;
+
+  @include md {
+    background: $brand-primary url("#{$media-path}/icon.png") no-repeat 20px center;
+    background-size: 96px;
+  }
 
   h1 {
     font-size: 24px;

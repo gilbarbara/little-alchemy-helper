@@ -186,11 +186,10 @@ var App = React.createClass({
             this.setState(state);
         }
         else {
-            state[option] = { $set: !this.state.options[option] };
-            state[option] = state[option];
             var newState = React.addons.update(this.state,
-                { options: state }
+                { options: { [option]: { $set: !this.state.options[option] } } }
             );
+            console.log(newState);
             this.setState(newState);
         }
     },
@@ -201,14 +200,14 @@ var App = React.createClass({
         };
 
         if (this.state.ready) {
-            output.library = <Library names={this.state.names} elements={this.state.elements}
+            output.library = (<Library names={this.state.names} elements={this.state.elements}
                                       options={this.state.options} completed={this.state.completed}
                                       filter={this.state.filter} setFilter={this._setFilter}
-                                      setStatus={this._setStatus}/>;
+                                      setStatus={this._setStatus}/>);
 
-            output.toolbar = <Toolbar filter={this.state.filter} setFilter={this._setFilter}
+            output.toolbar = (<Toolbar filter={this.state.filter} setFilter={this._setFilter}
                                       options={this.state.options} setOptions={this._setOptions}
-                                      completedCount={this.state.completed.length}/>;
+                                      completedCount={this.state.completed.length}/>);
         }
 
         return (
