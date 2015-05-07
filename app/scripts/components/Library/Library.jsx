@@ -2,8 +2,7 @@ var React   = require('react/addons'),
     _       = require('lodash'),
     $       = require('jquery'),
     tooltip = require('../../vendor/tooltip'),
-    Element = require('./Element'),
-    Tooltip = require('./Tooltip');
+    Element = require('./Element');
 
 var Library = React.createClass({
     mixins: [React.addons.PureRenderMixin],
@@ -44,12 +43,11 @@ var Library = React.createClass({
                     <span className="element">{this.props.filter.value ? (this.props.filter.type === 'children' ? this.props.filter.value : this.props.filter.value) : ''}
                         <a href="#" className={!this.props.filter.type ? ' hidden' : ''}
                            onClick={this._onClickClearFilter}><i className="fa fa-times-circle-o"></i></a></span>
-
                 </div>
             );
         }
         else if (!this.props.options.showAll) {
-            _title = _headings['descendants'];
+            _title = _headings.descendants;
         }
 
         return _title;
@@ -60,7 +58,7 @@ var Library = React.createClass({
             _parent;
 
         if (this.props.filter.type === 'children') {
-            _.map(this.props.elements, function (d, i) {
+            _.map(this.props.elements, function (d) {
                 if (d.name === this.props.filter.value) {
                     _parent = +d.id;
                 }

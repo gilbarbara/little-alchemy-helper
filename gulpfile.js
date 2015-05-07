@@ -174,7 +174,7 @@ gulp.task('extras', function () {
     files = gulp.src([
         'app/*.*',
         '!app/*.html',
-        'app/api/*.*'
+        'app/api/*.php'
     ], { dot: true })
         .pipe(gulp.dest(config.dest()))
         .pipe($.size({
@@ -241,11 +241,7 @@ gulp.task('serve', ['assets', 'scripts'], function () {
 
 gulp.task('build', ['clean'], function () {
     process.env.NODE_ENV = 'production';
-    runSequence('lint', 'scripts', ['assets', 'extras', 'html'], 'sizer');
-});
-
-gulp.task('deploy', function () {
-    runSequence('build', 'gh-pages');
+    runSequence('lint', ['assets', 'scripts', 'extras', 'html'], 'sizer');
 });
 
 gulp.task('default', ['serve']);

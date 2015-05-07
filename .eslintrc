@@ -71,6 +71,7 @@
     "no-redeclare": 1,
     "no-space-before-semi": 1,
     "no-extra-semi": 1,
+    "no-script-url": 0,
     "no-shadow": 1,
     "no-trailing-spaces": 1,
     "no-undefined": 0,

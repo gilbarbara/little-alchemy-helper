@@ -1,2 +1,3 @@
+.tmp
 dist
-assets/data/*.json
+app/api/*.json

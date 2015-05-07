@@ -1,16 +1,18 @@
-var React        = require('react'),
-    _            = require('lodash'),
-    AppActions   = require('../actions/AppActions'),
-    AppConstants = require('../constants/AppConstants'),
-    LAStore      = require('../stores/LAStore'),
-    Cookies      = require('./mixins/Cookies'),
-    Help         = require('./elements/Help'),
-    Header       = require('./elements/Header'),
-    DesktopAlert = require('./elements/DesktopAlert'),
-    Toolbar      = require('./elements/Toolbar'),
-    Library      = require('./Library/Library'),
-    Footer       = require('./elements/Footer'),
-    Loader       = require('./elements/Loader');
+var React           = require('react'),
+    _               = require('lodash'),
+    $               = require('jquery'),
+    bootstrapSwitch = require('bootstrap-switch'),
+    AppActions      = require('../actions/AppActions'),
+    AppConstants    = require('../constants/AppConstants'),
+    LAStore         = require('../stores/LAStore'),
+    Cookies         = require('./mixins/Cookies'),
+    Help            = require('./elements/Help'),
+    Header          = require('./elements/Header'),
+    DesktopAlert    = require('./elements/DesktopAlert'),
+    Toolbar         = require('./elements/Toolbar'),
+    Library         = require('./Library/Library'),
+    Footer          = require('./elements/Footer'),
+    Loader          = require('./elements/Loader');
 
 var App = React.createClass({
     mixins: [React.addons.PureRenderMixin, Cookies],
@@ -214,6 +216,7 @@ var App = React.createClass({
                 <main className="app__content">
                     <Header elementsCount={this.state.elementsCount}/>
                     <Help/>
+
                     <div className="app__container">
                         <DesktopAlert/>
                         {output.toolbar}
