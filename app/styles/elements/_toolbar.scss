@@ -1,12 +1,49 @@
 .app__toolbar {
+  margin-top: $grid-gutter-width;
+
   .row + .row {
     margin-top: $grid-gutter-width;
   }
 
-  .switch {
-    + label {
-      margin-left: 5px;
-      vertical-align: text-bottom;
+  .bootstrap-switch {
+    + span {
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+  }
+
+  .btn-group {
+
+    .btn.disabled {
+      color: $brand-primary;
+      opacity: 0.8;
+    }
+    
+    [class^=fa] {
+      margin-right: 4px;
+    }
+
+    span + span {
+      margin-left: 3px;
+    }
+  }
+
+
+  .clearable {
+    position: relative;
+
+    a {
+      color: #ccc;
+      display: none;
+      font-size: 18px;
+      position: absolute;
+      right: 10px;
+      text-decoration: none;
+      top: 14px;
+    }
+
+    &.full a {
+      display: block;
     }
   }
 }

@@ -1,13 +1,41 @@
 .app__library {
   margin-top: $grid-gutter-width;
   min-height: 300px;
-  position: relative;
 
   h3 {
     color: $brand-primary;
-    font-family: 'Advent Pro', sans-serif;
+    font-family: Lobster, cursive;
+    font-size: 36px;
     margin: 0 0 ($grid-gutter-width);
     text-align: center;
+
+    > div {
+      display: inline-block;
+    }
+    
+    .element {
+      background-color: $brand-primary;
+      color: #fff;
+      display: inline-block;
+      line-height: 1;
+      padding: 4px 5px 4px 10px;
+
+      > * {
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      > a {
+        color: #fff;
+        font-size: 18px;
+        margin-left: 10px;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
   }
 
   ul {
@@ -19,32 +47,30 @@
     padding-left: 0;
 
     &.show-completed {
-      .item.completed {
+      .item.completed:not(.hidden) {
         display: block !important;
       }
     }
-    
+
     &.empty {
       position: relative;
-      
+
       &:before {
-        background-color: $brand-primary;
-        color: #fff;
-        content: 'Nothing found';
+        color: #aaa;
+        content: '\f165';
         display: inline;
-        font-size: 3rem;
-        height: 90px;
-        padding: 20px;
+        font-family: FontAwesome, cursive;
+        font-size: 6rem;
       }
     }
   }
 
   .item {
-    background-color: #D8D3C6;
+    background-color: #d8d3c6;
     display: block;
     height: 164px;
     line-height: 1;
-    margin: 0 20px 20px 0;
+    margin: 0 10px 20px;
     position: relative;
     text-align: center;
     width: 110px;
@@ -78,8 +104,8 @@
     }
 
     .buttons {
-      background-color: #EEE;
-      border-bottom: 1px solid #CCC;
+      background-color: #eee;
+      border-bottom: 1px solid #ccc;
 
       a {
         color: #222;
@@ -90,45 +116,35 @@
         width: 33.33%;
 
         &:not(:first-child) {
-          border-left: 1px solid #CCC;
+          border-left: 1px solid #ccc;
         }
 
         &.status {
-          font-family: FontAwesome;
+          font-family: FontAwesome, cursive;
 
           &:before {
-            content: "\f0fe";
+            content: '\f0fe';
           }
         }
 
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
           text-decoration: none;
         }
       }
     }
 
     &.completed {
-      opacity: .6;
       display: none;
+      opacity: 0.6;
 
       a.status:before {
-        content: "\f146";
+        content: '\f146';
       }
     }
 
     &.hidden {
       display: none;
-    }
-  }
-
-  a.clearQuery {
-    display: none;
-    position: absolute;
-    right: 20px;
-    top: 4px;
-
-    &:hover {
-      text-decoration: none;
     }
   }
 }

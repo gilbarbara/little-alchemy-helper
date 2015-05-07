@@ -1,6 +1,7 @@
-var React = require('react/addons'),
-    _     = require('lodash'),
-    $     = require('jquery');
+var React          = require('react/addons'),
+    _              = require('lodash'),
+    $              = require('jquery'),
+    InputClearable = require('./InputClearable');
 
 var Toolbar = React.createClass({
     mixins: [React.addons.PureRenderMixin],
@@ -40,12 +41,17 @@ var Toolbar = React.createClass({
     },
 
     _onChange: function (e) {
-        var el = e.currentTarget;
+        var el = (e.id ? e : e.currentTarget);
 
-        this.setState({
-            childrenString: (el.id === 'children' ? el.value : null),
-            searchString: (el.id === 'search' ? el.value : null)
-        });
+        if (e.id) {
+            this.props.setFilter({});
+        }
+        else {
+            this.setState({
+                childrenString: (el.id === 'children' ? el.value || null : null),
+                searchString: (el.id === 'search' ? el.value || null : null)
+            });
+        }
     },
 
     _onKeyDown: function (e) {
@@ -95,22 +101,21 @@ var Toolbar = React.createClass({
         //console.log('Toolbar:render', this.props.filter);
         return (
             <div className="app__toolbar">
-                <div id="reloader" className="alert">
+                <div id="reloader" className="alert alert-dismissible">
                     <button type="button" className="close" data-dismiss="alert">&times;</button>
                     <i className="fa fa-exclamation-triangle"></i> <span>Click the bookmarklet twice to reload your discovered elements</span>
                 </div>
                 <div className="row">
                     <div className="col-sm-6">
-                        <input type="text" id="children" className="clearable form-control input-lg"
-                               placeholder="Things you can make with..." autoComplete="off"
-                               value={this.state.childrenString}
-                               onKeyDown={this._onKeyDown} onChange={this._onChange}/>
+                        <InputClearable type="text" id="children" value={this.state.childrenString}
+                                        placeholder="Things you can make with..." autocomplete="off"
+                                        _onKeyDown={this._onKeyDown} _onChange={this._onChange}/>
+
                     </div>
                     <div className="col-sm-6">
-                        <input type="text" id="search" className="clearable form-control input-lg"
-                               placeholder="Search elements" autoComplete="off"
-                               value={this.state.searchString}
-                               onKeyDown={this._onKeyDown} onChange={this._onChange}/>
+                        <InputClearable type="text" id="search" value={this.state.searchString}
+                                        placeholder="Search elements" autocomplete="off"
+                                        _onKeyDown={this._onKeyDown} _onChange={this._onChange}/>
                     </div>
                 </div>
                 <div className="row">
@@ -129,17 +134,17 @@ var Toolbar = React.createClass({
                                    defaultChecked={this.props.options.showAll}/>Show All?</label>
                     </div>
                     <div className="col-sm-6">
-                        <div className="btn-group">
+                        <div className="btn-group btn-group-sm" role="group">
                             <button id="showCompleted"
-                                    className={'btn btn-sm ' + (this.props.options.showCompleted ? 'btn-primary' : 'btn-default')}
+                                    className={'btn ' + (this.props.options.showCompleted ? 'btn-primary' : 'btn-default')}
                                     onClick={this._onClick}><i
                                 className="fa fa-eye"></i><span>show completed</span>
                             </button>
-                            <button id="resetCompleted" className="btn btn-sm btn-default"
+                            <button id="resetCompleted" className="btn btn-default"
                                     onClick={this._onClickReset}><i
                                 className="fa fa-exclamation-triangle"></i><span>reset completed</span></button>
 
-                            <button className="btn btn-sm btn-default disabled"><i
+                            <button className="btn btn-default disabled"><i
                                 className="fa fa-check"></i>
                                 <span>{this.props.completedCount}</span><span>completed</span>
                             </button>

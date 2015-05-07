@@ -221,7 +221,7 @@ gulp.task('clean', del.bind(null, [config.dest()]));
 gulp.task('serve', ['assets', 'scripts'], function () {
     browserSync({
         notify: true,
-        logPrefix: 'react-starter',
+        logPrefix: 'l.a.h',
         files: ['app/*.html', '.tmp/scripts/**/*.js', '.tmp/styles/**/*.css', 'app/images/**/*'],
         server: {
             baseDir: [config.dest(), 'app'],

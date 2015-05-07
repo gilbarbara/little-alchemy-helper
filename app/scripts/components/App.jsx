@@ -25,11 +25,11 @@ var App = React.createClass({
             elements: {},
             elementsCount: 500,
             completed: [],
-            filter: { type: 'search', value: 'fire' },
+            filter: {},
             options: {
                 showCompleted: false,
                 showAll: false,
-                showCheats: true
+                showCheats: false
             }
         };
     },
@@ -153,57 +153,6 @@ var App = React.createClass({
         return results === null ? false : decodeURIComponent(results[1].replace(/\+/g, ' '));
     },
 
-    cleanHeader: function () {
-        this.$item.hide().filter(':not(.completed)').show();
-    },
-
-    cleanQueries: function (skip) {
-        skip = skip ? skip : [];
-        if ($.inArray('completed', skip) === -1) {
-            $('#showCompleted').removeClass('btn-primary').addClass('btn-default').find('span').html('show');
-        }
-        if ($.inArray('filter', skip) === -1) {
-            $('#filter').trigger('clear');
-        }
-        if ($.inArray('search', skip) === -1) {
-            $('#search').trigger('clear');
-        }
-    },
-
-    filterMake: function (str) {
-        if (str) {
-            this.cleanQueries(['filter']);
-            this.$item.filter(':not(.completed)').show();
-            this.$item.filter(':data(composition[!*]=' + str + ')').hide().end();
-            this.$library
-                .find('.clearQuery').show();
-        }
-        else {
-            this.cleanHeader();
-        }
-    },
-
-    filterSearch: function (str) {
-        var title;
-
-        if (str) {
-            this.cleanQueries(['search']);
-            this.$item.hide();
-            this.$item.find("h5:contains('" + str.toLowerCase() + "')").parent().show();
-            if (this.$item.filter(':visible').size()) {
-                title = 'Elements found with: ' + str;
-                this.$library
-                    .find('.clearQuery').show();
-            }
-            else {
-                title = 'Nothing found';
-            }
-        }
-        else {
-            this.cleanHeader();
-        }
-    },
-
     _setFilter: function (filters) {
         filters = filters.value !== undefined && !filters.value.length ? {} : filters;
         this.setState({ filter: filters });
@@ -217,6 +166,7 @@ var App = React.createClass({
         }
         else {
             _completed.push(+element);
+            this._addToCookie(+element);
         }
 
         this.setState({
@@ -250,9 +200,9 @@ var App = React.createClass({
 
         if (this.state.ready) {
             output.library = <Library names={this.state.names} elements={this.state.elements}
-                                      options={this.state.options}
-                                      completed={this.state.completed} filter={this.state.filter}
-                                      setFilter={this._setFilter} setStatus={this._setStatus}/>;
+                                      options={this.state.options} completed={this.state.completed}
+                                      filter={this.state.filter} setFilter={this._setFilter}
+                                      setStatus={this._setStatus}/>;
 
             output.toolbar = <Toolbar filter={this.state.filter} setFilter={this._setFilter}
                                       options={this.state.options} setOptions={this._setOptions}
@@ -261,9 +211,9 @@ var App = React.createClass({
 
         return (
             <div className="app">
-                <Header elementsCount={this.state.elementsCount}/>
-                <Help/>
                 <main className="app__content">
+                    <Header elementsCount={this.state.elementsCount}/>
+                    <Help/>
                     <div className="app__container">
                         <DesktopAlert/>
                         {output.toolbar}

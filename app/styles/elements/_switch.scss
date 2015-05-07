@@ -20,177 +20,191 @@
  */
 
 .bootstrap-switch {
-  display: inline-block;
-  direction: ltr;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   cursor: pointer;
-  border-radius: 4px;
-  border: 1px solid;
-  border-color: #cccccc;
+  direction: ltr;
+  display: inline-block;
+  line-height: 8px;
+  overflow: hidden;
   position: relative;
   text-align: left;
-  overflow: hidden;
-  line-height: 8px;
-  z-index: 0;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
   user-select: none;
   vertical-align: middle;
-  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-}
-.bootstrap-switch .bootstrap-switch-container {
-  display: inline-block;
-  top: 0;
-  border-radius: 4px;
-  -webkit-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-}
-.bootstrap-switch .bootstrap-switch-handle-on,
-.bootstrap-switch .bootstrap-switch-handle-off,
-.bootstrap-switch .bootstrap-switch-label {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block !important;
-  height: 100%;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 20px;
-}
-.bootstrap-switch .bootstrap-switch-handle-on,
-.bootstrap-switch .bootstrap-switch-handle-off {
-  text-align: center;
-  z-index: 1;
-}
-.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary,
-.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary {
-  color: #fff;
-  background: $brand-primary;
-}
-.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-info,
-.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-info {
-  color: #fff;
-  background: #5bc0de;
-}
-.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-success,
-.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-success {
-  color: #fff;
-  background: #5cb85c;
-}
-.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-warning,
-.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-warning {
-  background: #f0ad4e;
-  color: #fff;
-}
-.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-danger,
-.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-danger {
-  color: #fff;
-  background: #d9534f;
-}
-.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-default,
-.bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-default {
-  color: #000;
-  background: #eeeeee;
-}
-.bootstrap-switch .bootstrap-switch-label {
-  text-align: center;
-  margin-top: -1px;
-  margin-bottom: -1px;
-  z-index: 100;
-  color: #333333;
-  background: #ffffff;
-}
-.bootstrap-switch .bootstrap-switch-handle-on {
-  border-bottom-left-radius: 3px;
-  border-top-left-radius: 3px;
-}
-.bootstrap-switch .bootstrap-switch-handle-off {
-  border-bottom-right-radius: 3px;
-  border-top-right-radius: 3px;
-}
-.bootstrap-switch input[type='radio'],
-.bootstrap-switch input[type='checkbox'] {
-  position: absolute !important;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  filter: alpha(opacity=0);
-  z-index: -1;
-}
-.bootstrap-switch input[type='radio'].form-control,
-.bootstrap-switch input[type='checkbox'].form-control {
-  height: auto;
-}
-.bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on,
-.bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off,
-.bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
-  padding: 1px 5px;
-  font-size: 12px;
-  line-height: 1.5;
-}
-.bootstrap-switch.bootstrap-switch-small .bootstrap-switch-handle-on,
-.bootstrap-switch.bootstrap-switch-small .bootstrap-switch-handle-off,
-.bootstrap-switch.bootstrap-switch-small .bootstrap-switch-label {
-  padding: 5px 10px;
-  font-size: 12px;
-  line-height: 1.5;
-}
-.bootstrap-switch.bootstrap-switch-large .bootstrap-switch-handle-on,
-.bootstrap-switch.bootstrap-switch-large .bootstrap-switch-handle-off,
-.bootstrap-switch.bootstrap-switch-large .bootstrap-switch-label {
-  padding: 6px 16px;
-  font-size: 18px;
-  line-height: 1.33;
-}
-.bootstrap-switch.bootstrap-switch-disabled,
-.bootstrap-switch.bootstrap-switch-readonly,
-.bootstrap-switch.bootstrap-switch-indeterminate {
-  cursor: default !important;
-}
-.bootstrap-switch.bootstrap-switch-disabled .bootstrap-switch-handle-on,
-.bootstrap-switch.bootstrap-switch-readonly .bootstrap-switch-handle-on,
-.bootstrap-switch.bootstrap-switch-indeterminate .bootstrap-switch-handle-on,
-.bootstrap-switch.bootstrap-switch-disabled .bootstrap-switch-handle-off,
-.bootstrap-switch.bootstrap-switch-readonly .bootstrap-switch-handle-off,
-.bootstrap-switch.bootstrap-switch-indeterminate .bootstrap-switch-handle-off,
-.bootstrap-switch.bootstrap-switch-disabled .bootstrap-switch-label,
-.bootstrap-switch.bootstrap-switch-readonly .bootstrap-switch-label,
-.bootstrap-switch.bootstrap-switch-indeterminate .bootstrap-switch-label {
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-  cursor: default !important;
-}
-.bootstrap-switch.bootstrap-switch-animate .bootstrap-switch-container {
-  -webkit-transition: margin-left 0.5s;
-  transition: margin-left 0.5s;
-}
-.bootstrap-switch.bootstrap-switch-inverse .bootstrap-switch-handle-on {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-  border-bottom-right-radius: 3px;
-  border-top-right-radius: 3px;
-}
-.bootstrap-switch.bootstrap-switch-inverse .bootstrap-switch-handle-off {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 3px;
-  border-top-left-radius: 3px;
-}
-.bootstrap-switch.bootstrap-switch-focused {
-  border-color: #66afe9;
-  outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
-}
-.bootstrap-switch.bootstrap-switch-on .bootstrap-switch-label,
-.bootstrap-switch.bootstrap-switch-inverse.bootstrap-switch-off .bootstrap-switch-label {
-  border-bottom-right-radius: 3px;
-  border-top-right-radius: 3px;
-}
-.bootstrap-switch.bootstrap-switch-off .bootstrap-switch-label,
-.bootstrap-switch.bootstrap-switch-inverse.bootstrap-switch-on .bootstrap-switch-label {
-  border-bottom-left-radius: 3px;
-  border-top-left-radius: 3px;
+  z-index: 0;
+
+  .bootstrap-switch-container {
+    border-radius: 8px;
+    display: inline-block;
+    top: 0;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .bootstrap-switch-handle-on,
+  .bootstrap-switch-handle-off,
+  .bootstrap-switch-label {
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block !important;
+    font-size: 14px;
+    height: 100%;
+    line-height: 20px;
+    padding: 6px 12px;
+  }
+
+  .bootstrap-switch-handle-on,
+  .bootstrap-switch-handle-off {
+    text-align: center;
+    z-index: 1;
+  }
+
+  .bootstrap-switch-handle-on.bootstrap-switch-primary,
+  .bootstrap-switch-handle-off.bootstrap-switch-primary {
+    background: $brand-primary;
+    color: #fff;
+  }
+
+  .bootstrap-switch-handle-on.bootstrap-switch-info,
+  .bootstrap-switch-handle-off.bootstrap-switch-info {
+    background: #5bc0de;
+    color: #fff;
+  }
+
+  .bootstrap-switch-handle-on.bootstrap-switch-success,
+  .bootstrap-switch-handle-off.bootstrap-switch-success {
+    background: #5cb85c;
+    color: #fff;
+  }
+
+  .bootstrap-switch-handle-on.bootstrap-switch-warning,
+  .bootstrap-switch-handle-off.bootstrap-switch-warning {
+    background: #f0ad4e;
+    color: #fff;
+  }
+
+  .bootstrap-switch-handle-on.bootstrap-switch-danger,
+  .bootstrap-switch-handle-off.bootstrap-switch-danger {
+    background: #d9534f;
+    color: #fff;
+  }
+
+  .bootstrap-switch-handle-on.bootstrap-switch-default,
+  .bootstrap-switch-handle-off.bootstrap-switch-default {
+    background: #eee;
+    color: #000;
+  }
+
+  .bootstrap-switch-label {
+    background: #fff;
+    color: #333;
+    margin-bottom: -1px;
+    margin-top: -1px;
+    text-align: center;
+    z-index: 100;
+  }
+
+  .bootstrap-switch-handle-on {
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+  }
+
+  .bootstrap-switch-handle-off {
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+
+  [type='radio'],
+  [type='checkbox'] {
+    filter: alpha(opacity=0);
+    left: 0;
+    opacity: 0;
+    position: absolute !important;
+    top: 0;
+    z-index: -1;
+  }
+
+  [type='radio'].form-control,
+  [type='checkbox'].form-control {
+    height: auto;
+  }
+
+  &.bootstrap-switch-mini .bootstrap-switch-handle-on,
+  &.bootstrap-switch-mini .bootstrap-switch-handle-off,
+  &.bootstrap-switch-mini .bootstrap-switch-label {
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 1px 5px;
+  }
+
+  &.bootstrap-switch-small .bootstrap-switch-handle-on,
+  &.bootstrap-switch-small .bootstrap-switch-handle-off,
+  &.bootstrap-switch-small .bootstrap-switch-label {
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 5px 10px;
+  }
+
+  &.bootstrap-switch-large .bootstrap-switch-handle-on,
+  &.bootstrap-switch-large .bootstrap-switch-handle-off,
+  &.bootstrap-switch-large .bootstrap-switch-label {
+    font-size: 18px;
+    line-height: 1.33;
+    padding: 6px 16px;
+  }
+
+  &.bootstrap-switch-disabled,
+  &.bootstrap-switch-readonly,
+  &.bootstrap-switch-indeterminate {
+    cursor: default !important;
+  }
+
+  &.bootstrap-switch-disabled .bootstrap-switch-handle-on,
+  &.bootstrap-switch-readonly .bootstrap-switch-handle-on,
+  &.bootstrap-switch-indeterminate .bootstrap-switch-handle-on,
+  &.bootstrap-switch-disabled .bootstrap-switch-handle-off,
+  &.bootstrap-switch-readonly .bootstrap-switch-handle-off,
+  &.bootstrap-switch-indeterminate .bootstrap-switch-handle-off,
+  &.bootstrap-switch-disabled .bootstrap-switch-label,
+  &.bootstrap-switch-readonly .bootstrap-switch-label,
+  &.bootstrap-switch-indeterminate .bootstrap-switch-label {
+    cursor: default !important;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+  }
+
+  &.bootstrap-switch-animate .bootstrap-switch-container {
+    transition: margin-left 0.5s;
+  }
+
+  &.bootstrap-switch-inverse .bootstrap-switch-handle-on {
+    border-radius: 0 3px 3px 0;
+  }
+
+  &.bootstrap-switch-inverse .bootstrap-switch-handle-off {
+    border-radius: 3px 0 0 3px;
+  }
+
+  &.bootstrap-switch-focused {
+    border-color: #ccc;
+    box-shadow: 0;
+    outline: 0;
+  }
+
+  &.bootstrap-switch-on,
+  &.bootstrap-switch-on.bootstrap-switch-focused {
+    border-color: $brand-primary;
+  }
+
+  &.bootstrap-switch-on .bootstrap-switch-label,
+  &.bootstrap-switch-inverse.bootstrap-switch-off .bootstrap-switch-label {
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+
+  &.bootstrap-switch-off .bootstrap-switch-label,
+  &.bootstrap-switch-inverse.bootstrap-switch-on .bootstrap-switch-label {
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+  }
 }

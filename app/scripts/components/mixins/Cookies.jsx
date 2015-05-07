@@ -13,15 +13,11 @@ var Cookies = {
         return elements;
     },
 
-    _AddToCookie: function (name) {
-        var _cookie = cookie.load(this.appName);
+    _addToCookie: function (id) {
+        var _cookie    = cookie.load(this.appName),
+            savedArray = _cookie ? _cookie.split('|') : this._primeElements();
 
-        if (!_cookie) {
-            cookie.save(this.appName, name);
-        }
-
-        var savedArray = _cookie.split('|');
-        savedArray.push(name);
+        savedArray.push(id);
         savedArray = _.uniq(savedArray);
         cookie.save(this.appName, savedArray.join('|'));
 
@@ -29,14 +25,21 @@ var Cookies = {
     },
 
     _getCookie: function () {
-        var _cookie = cookie.load(this.appName);
+        var _cookie    = cookie.load(this.appName),
+            savedArray = _cookie ? _cookie.split('|') : this._primeElements();
 
         if (this.getQueryOption('import') && !this.imported) {
-            cookie.save(this.appName, this.getQueryOption('import').split(',').join('|'));
+            savedArray = _.uniq(
+                _.union(
+                    _.map(this.getQueryOption('import').split(','), function (d) {
+                        return +d;
+                    }),
+                    this._primeElements()
+                )
+            );
+                cookie.save(this.appName, savedArray.join('|'));
             this.imported = true;
         }
-
-        var savedArray = _.union(_cookie ? _cookie.split('|') : false, this._primeElements());
 
         if (isNaN(parseInt(savedArray[0], 10))) {
             /*! update old cookie format */
@@ -58,15 +61,15 @@ var Cookies = {
         return savedArray;
     },
 
-    _removeFromCookie: function (name) {
+    _removeFromCookie: function (id) {
         var _cookie = cookie.load(this.appName);
         if (!_cookie) {
             return false;
         }
 
         var savedArray = _cookie.split('|');
-        if (savedArray.indexOf(name) > -1) {
-            savedArray.splice(savedArray.indexOf(name), 1);
+        if (savedArray.indexOf(id) > -1) {
+            savedArray.splice(savedArray.indexOf(id), 1);
         }
         savedArray = _.uniq(savedArray);
         cookie.save(this.appName, savedArray.join('|'));

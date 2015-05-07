@@ -5,7 +5,6 @@
   &__content {
     background-color: #fff;
     min-height: 100%;
-    position: relative;
     z-index: 5;
   }
 
@@ -13,32 +12,11 @@
     height: 100%;
     margin-left: auto;
     margin-right: auto;
-    min-height: 300px;
     padding: 1.5rem;
-    position: relative;
     width: inherit;
 
     @include xl {
-      max-width: 1440px;
-    }
-  }
-
-  &__wrapper {
-    margin: 0 auto;
-    max-width: 640px;
-  }
-
-  &__container {
-    height: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    min-height: 300px;
-    padding: 1.5rem;
-    position: relative;
-    width: inherit;
-
-    @include xl {
-      max-width: 1440px;
+      max-width: 1350px;
     }
   }
 

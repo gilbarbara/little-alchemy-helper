@@ -1,6 +1,7 @@
 var React   = require('react/addons'),
     _       = require('lodash'),
     $       = require('jquery'),
+    tooltip = require('../../vendor/tooltip'),
     Element = require('./Element'),
     Tooltip = require('./Tooltip');
 
@@ -24,14 +25,8 @@ var Library = React.createClass({
         };
     },
 
-    getInitialState: function () {
-        return {
-            name: null,
-            image: null,
-            make: null,
-            composition: null,
-            visible: false
-        };
+    componentDidMount: function () {
+        $('.item').tooltip();
     },
 
     _heading: function () {
@@ -43,7 +38,18 @@ var Library = React.createClass({
             };
 
         if (this.props.filter.type && this.props.filter.value) {
-            _title = _headings[this.props.filter.type] + (this.props.filter.value ? (this.props.filter.type === 'children' ? this.props.filter.value : this.props.filter.value) : '');
+            _title = (
+                <div>
+                    {_headings[this.props.filter.type]}
+                    <span className="element">{this.props.filter.value ? (this.props.filter.type === 'children' ? this.props.filter.value : this.props.filter.value) : ''}
+                        <a href="#" className={!this.props.filter.type ? ' hidden' : ''}
+                           onClick={this._onClickClearFilter}><i className="fa fa-times-circle-o"></i></a></span>
+
+                </div>
+            );
+        }
+        else if (!this.props.options.showAll) {
+            _title = _headings['descendants'];
         }
 
         return _title;
@@ -53,18 +59,7 @@ var Library = React.createClass({
         var filtered = [],
             _parent;
 
-        if (this.props.filter.type === 'descendants') {
-            _.map(this.props.elements, function (d, i) {
-                if (d.parents) {
-                    _.each(d.parents, function (p) {
-                        if (this.props.completed.indexOf(p[0]) > -1 && this.props.completed.indexOf(p[1]) > -1) {
-                            filtered.push(i);
-                        }
-                    }, this);
-                }
-            }, this);
-        }
-        else if (this.props.filter.type === 'children') {
+        if (this.props.filter.type === 'children') {
             _.map(this.props.elements, function (d, i) {
                 if (d.name === this.props.filter.value) {
                     _parent = +d.id;
@@ -89,41 +84,36 @@ var Library = React.createClass({
                 }
             }, this);
         }
+        else if (!this.props.options.showAll) {
+            _.map(this.props.elements, function (d, i) {
+                if (d.parents) {
+                    _.each(d.parents, function (p) {
+                        if (this.props.completed.indexOf(p[0]) > -1 && this.props.completed.indexOf(p[1]) > -1) {
+                            filtered.push(i);
+                        }
+                    }, this);
+                }
+            }, this);
+        }
 
         return filtered;
     },
 
-    _onHover: function (e) {
-        var _element = e.currentTarget.parentNode.parentNode,
-            state = {};
-
-        if (e.type === 'mouseenter') {
-            state = {
-                name: _element.getAttribute('name'),
-                image: _element.querySelectorAll('img')[0].src,
-                make: _element.dataset.make,
-                composition: _.map(_element.dataset.composition.split(';'), function (d, i) {
-                    return <div key={i}>{d}</div>;
-                }),
-                visible: true
-            };
-        }
-        else {
-            state.visible = false;
-        }
-        this.setState(state);
+    _onClickClearFilter: function (e) {
+        e.preventDefault();
+        this.props.setFilter({});
     },
 
     _onClickStatus: function (e) {
         e.preventDefault();
         var _element = e.currentTarget;
-        this.props.setStatus(_element.parentNode.parentNod.dataset.id, _element.classList.contains('remove'));
+        this.props.setStatus(_element.parentNode.parentNode.id, _element.classList.contains('remove'));
     },
 
     _onClickChildren: function (e) {
         e.preventDefault();
         var _element = e.currentTarget;
-        this.props.setFilter({ type: 'children', value: _element.parentNode.parentNod.dataset.name });
+        this.props.setFilter({ type: 'children', value: _element.parentNode.parentNode.dataset.name });
     },
 
     render: function () {
@@ -149,16 +139,16 @@ var Library = React.createClass({
                 return this.props.names[c];
             }, this);
 
-            options.visible += (this.props.filter.type && filtered.indexOf(i) === -1 ? 0 : 1);
+            options.visible += (filtered.length && filtered.indexOf(i) === -1 ? 0 : 1);
 
             return (
-                <li key={i} id={i} name={d.name}
-                    className={'item thumbnail' + (!d.children.length ? ' finalElement' : '') + (options.completed ? ' completed' : '') + (this.props.filter.type && filtered.indexOf(i) === -1 ? ' hidden' : '') }
+                <li key={i} id={i}
+                    className={'item thumbnail' + (!d.children.length ? ' finalElement' : '') + (options.completed ? ' completed' : '') + (filtered.length && filtered.indexOf(i) === -1 ? ' hidden' : '') }
+                    data-name={d.name}
                     data-composition={d.parents ? options.parents.join(';') : ''}
                     data-make={options.children.join(', ')}>
                     <div className="buttons">
-                        <a href="#" className="info"
-                           onMouseEnter={this._onHover} onMouseLeave={this._onHover}><i className="fa fa-eye"></i></a>
+                        <a href="#" className="info"><i className="fa fa-eye"></i></a>
                         <a href="#" title="mark as completed"
                            className={'status ' + (options.completed ? 'remove' : 'add')}
                            onClick={this._onClickStatus}></a>
@@ -182,7 +172,7 @@ var Library = React.createClass({
 
         options.heading = this._heading(options.visible);
 
-        if (filtered) {
+        if (filtered.length) {
             options.classes.push('filtered');
         }
 
@@ -196,12 +186,21 @@ var Library = React.createClass({
 
         return (
             <div className="app__library">
-                <h3>{options.heading}</h3>
-                <a className="clearQuery" href="#"><i className="icon-remove-sign"></i></a>
+                <h3>
+                    {options.heading}
+                </h3>
                 <ul className={options.classes.join(' ')}>
                     {elements}
                 </ul>
-                <Tooltip {...this.state}/>
+                <div className="tooltip">
+                    <div className="image"></div>
+                    <h4></h4>
+
+                    <div className="made"></div>
+                    <h5>can make</h5>
+
+                    <div className="make"></div>
+                </div>
             </div>
         );
     }

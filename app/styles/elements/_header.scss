@@ -1,33 +1,35 @@
 .app__header {
-  -moz-border-radius: 0;
-  -webkit-border-radius: 0;
-  border-radius: 0;
   background: $brand-primary url("#{$media-path}/icon.png") no-repeat 20px center;
   background-size: 96px;
-  color: #FFF;
+  color: #fff;
   padding: 30px 30px 50px;
   position: relative;
 
   h1 {
+    font-size: 24px;
     font-weight: 100;
     margin-top: 0;
     text-align: center;
+
+    @include md {
+      font-size: 48px;
+    }
   }
 
   h4 {
-    font-weight: 200;
+    font-weight: 100;
     margin-bottom: 0;
     text-align: center;
 
     a {
-      color: #FFF;
+      color: #fff;
       text-decoration: underline;
     }
   }
 
-  #helpBtn {
-    background-color: #FFF;
-    border: none;
+  .help-toggle {
+    background-color: #fff;
+    border: 0;
     border-radius: 6px 6px 0 0;
     bottom: 0;
     color: $brand-primary;
@@ -35,16 +37,6 @@
     padding: 4px 12px;
     position: absolute;
     right: 15px;
-  }
-
-  .sharing {
-    bottom: 0;
-    position: absolute;
-    right: 84px;
-
-    * {
-      box-sizing: content-box;
-    }
-
+    text-decoration: none;
   }
 }

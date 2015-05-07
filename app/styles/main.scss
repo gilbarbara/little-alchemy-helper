@@ -1,4 +1,4 @@
-@import url(//fonts.googleapis.com/css?family=Advent+Pro:400);
+@import url(//fonts.googleapis.com/css?family=Lobster|Roboto:100,400,400italic,700);
 // Base
 @import 'base/variables';
 @import 'base/bootstrap';
@@ -27,7 +27,7 @@
 
 body {
   background-color: #f7f7f7;
-  font-family: Lato, sans-serif;
+  font-family: Roboto, sans-serif;
   min-height: 100%;
 }
 
@@ -48,23 +48,25 @@ body {
   }
 }
 
-#help {
-  background-color: #fcf7ff;
-  border-bottom: 1px solid $brand-primary;
+.help {
+  background-color: #fff;
+  border-bottom: 2px solid $brand-primary;
   display: none;
-  margin: -30px 0 15px;
 
-  h5 {
-    color: #999;
-    margin: 0 0 5px;
-
-    &:first-child {
-      margin-top: 15px;
-    }
+  i {
+    color: $brand-primary;
+    display: inline-block;
+    font-size: 24px;
+    margin-right: 5px;
+    vertical-align: middle;
   }
 
-  .container {
-    margin-bottom: 10px;
+  span {
+    vertical-align: middle;
+  }
+
+  [class^=col-] {
+    text-align: center;
   }
 }
 
@@ -76,16 +78,12 @@ body {
 .tooltip {
   background-color: #444;
   border-radius: 8px;
-  color: #FFF;
+  color: #fff;
   display: none;
   line-height: 1.3;
   padding: 16px;
   position: absolute;
   width: 200px;
-
-  &.visible {
-    display: block;
-  }
 
   .image {
     background-repeat: no-repeat;
@@ -106,38 +104,22 @@ body {
 
 blockquote {
   position: relative;
+
   a.close {
     font-size: 14px;
     position: absolute;
-    top: 0;
     right: 0;
+    top: 0;
   }
 }
 
-div.clear_input {
-  position: relative;
-}
-
-div.clear_input a {
-  color: #CCC;
-  cursor: pointer;
-  font-size: 18px;
-  position: absolute;
-  text-decoration: none;
-}
-
 .alert {
-  color: $brand-primary;
   background-color: lighten($brand-primary, 36%);
   border-color: lighten($brand-primary, 32%);
+  color: $brand-primary;
 
   .close {
     color: $brand-primary;
     opacity: 0.7;
   }
-}
-
-#completedCount.btn.disabled {
-  color: $brand-primary;
-  opacity: .8;
 }
