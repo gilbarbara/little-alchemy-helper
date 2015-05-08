@@ -40,7 +40,8 @@ var Library = React.createClass({
             _title = (
                 <div>
                     {_headings[this.props.filter.type]}
-                    <span className="element">{this.props.filter.value ? (this.props.filter.type === 'children' ? this.props.filter.value : this.props.filter.value) : ''}
+                    <span
+                        className="element">{this.props.filter.value ? (this.props.filter.type === 'children' ? this.props.filter.value : this.props.filter.value) : ''}
                         <a href="#" className={!this.props.filter.type ? ' hidden' : ''}
                            onClick={this._onClickClearFilter}><i className="fa fa-times-circle-o"></i></a></span>
                 </div>
@@ -146,7 +147,8 @@ var Library = React.createClass({
                     data-composition={d.parents ? options.parents.join(';') : ''}
                     data-make={options.children.join(', ')}>
                     <div className="buttons">
-                        <a href="#" className="info"><i className="fa fa-eye"></i></a>
+                        <a href="#" className={'info' + (!this.props.options.showCheats ? ' muted' : '') }><i className={'fa ' + (this.props.options.showCheats ? 'fa-eye' : 'fa-eye-slash')}></i>
+                        </a>
                         <a href="#" title="mark as completed"
                            className={'status ' + (options.completed ? 'remove' : 'add')}
                            onClick={this._onClickStatus}></a>

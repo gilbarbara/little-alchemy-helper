@@ -3,7 +3,6 @@
   "title": "Little Alchemy Helper",
   "description": "Interactive helper app for the game Little Alchemy",
   "version": "2.0.0",
-  "release": "114",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
     "type": "git",

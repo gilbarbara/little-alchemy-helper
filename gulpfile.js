@@ -87,11 +87,10 @@ gulp.task('styles', function () {
         .pipe($.changed('styles', {
             extension: '.scss'
         }))
-        .pipe($.sass({
+        .pipe($.sass.sync({
             includePaths: ['bower_components'],
-            precision: 10,
-            onError: console.error.bind(console, 'Sass error:')
-        }))
+            precision: 10
+        }).on('error', $.sass.logError))
         .pipe($.autoprefixer({
             browsers: AUTOPREFIXER_BROWSERS
         }))
@@ -120,24 +119,6 @@ gulp.task('lint', function () {
         .pipe($.eslint.failOnError());
 });
 
-gulp.task('html', function () {
-
-    var assets = $.useref.assets({
-        searchPath: ['.tmp', 'app', '.']
-    });
-
-    return gulp.src('app/*.html')
-        .pipe(assets)
-        .pipe($.if('*.js', $.uglify()))
-        .pipe($.if('*.css', $.cssmin()))
-        .pipe(assets.restore())
-        .pipe($.useref())
-        .pipe(gulp.dest(config.dest()))
-        .pipe($.size({
-            title: 'HTML'
-        }));
-});
-
 gulp.task('media', function () {
     return gulp.src('app/media/**/*')
         .pipe($.cache($.imagemin({
@@ -163,27 +144,39 @@ gulp.task('fonts', function () {
         }));
 });
 
-gulp.task('extras', function () {
-    var vendor, files;
+gulp.task('bundle', function () {
+    var html,
+        vendor,
+        files,
+        assets = $.useref.assets({
+            searchPath: ['.tmp', 'app', '.']
+        });
+
+    html = gulp.src('app/*.html')
+        .pipe(assets)
+        .pipe($.if('*.css', $.cssmin()))
+        .pipe($.if('*.js', $.uglify()))
+        .pipe(assets.restore())
+        .pipe($.useref())
+        .pipe(gulp.dest('dist'))
+        .pipe($.size({
+            title: 'Bundle:html'
+        }));
 
     vendor = gulp.src('bower_components/modernizr/modernizr.js')
-        .pipe($.uglify())
-        .pipe(gulp.dest(config.dest() + '/scripts/vendor'))
-        .pipe($.size({
-            title: 'Extras:vendor'
-        }));
+        .pipe($.uglify());
 
     files = gulp.src([
         'app/*.*',
         '!app/*.html',
-        'app/api/*.php'
-    ], { dot: true })
-        .pipe(gulp.dest(config.dest()))
+        'app/api/**'
+    ], { dot: true, base: 'app/' })
+        .pipe(gulp.dest('dist'))
         .pipe($.size({
-            title: 'Extras:files'
+            title: 'Bundle:copy'
         }));
 
-    return merge(vendor, files);
+    return merge(html, vendor, files);
 });
 
 gulp.task('clean', del.bind(null, [config.dest() + '/*']));
@@ -191,14 +184,14 @@ gulp.task('clean', del.bind(null, [config.dest() + '/*']));
 gulp.task('sizer', function () {
     return gulp.src(config.dest() + '/**/*')
         .pipe($.size({
-            title: 'Build',
+            title: 'Size',
             gzip: true
         }));
 });
 
 gulp.task('wiredep', function () {
     return gulp.src('app/index.html')
-        .pipe(wiredep({ exclude: ['bootstrap-sass', 'footable'] }))
+        .pipe(wiredep({ exclude: ['bootstrap-sass'] }))
         .pipe(gulp.dest('app'))
         .pipe($.size({
             title: 'wiredep'
@@ -243,7 +236,7 @@ gulp.task('serve', ['assets', 'scripts'], function () {
 
 gulp.task('build', ['clean'], function () {
     process.env.NODE_ENV = 'production';
-    runSequence('lint', ['assets', 'scripts', 'extras', 'html'], 'sizer');
+    runSequence('lint', ['assets', 'scripts', 'bundle'], 'sizer');
 });
 
 gulp.task('default', ['serve']);

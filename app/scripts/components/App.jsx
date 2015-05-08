@@ -72,7 +72,6 @@ var App = React.createClass({
 
         if (action === AppConstants.ActionTypes.FETCH_BASE) {
             var base = {};
-
             response = LAStore.fetchBaseResponse();
             if (response.status === AppConstants.XHR.SUCCESS) {
                 _.map(response.data, function (d, i) {
@@ -177,21 +176,19 @@ var App = React.createClass({
     },
 
     _setOptions: function (option, status) {
-        var state = {};
+        let state = {};
 
         if (option === 'resetCompleted') {
             this._removeCookie();
             state.completed = this._primeElements();
-
-            this.setState(state);
         }
         else {
-            var newState = React.addons.update(this.state,
+            state = React.addons.update(this.state,
                 { options: { [option]: { $set: !this.state.options[option] } } }
             );
-            console.log(newState);
-            this.setState(newState);
         }
+
+        this.setState(state);
     },
 
     render: function () {

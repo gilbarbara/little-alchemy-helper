@@ -20,7 +20,7 @@
  */
 
 .bootstrap-switch {
-  border: 1px solid #ccc;
+  border: 1px solid transparent;
   border-radius: 8px;
   cursor: pointer;
   direction: ltr;
@@ -49,7 +49,7 @@
     display: inline-block !important;
     font-size: 14px;
     height: 100%;
-    line-height: 20px;
+    line-height: 16px;
     padding: 6px 12px;
   }
 
@@ -91,27 +91,28 @@
 
   .bootstrap-switch-handle-on.bootstrap-switch-default,
   .bootstrap-switch-handle-off.bootstrap-switch-default {
-    background: #eee;
-    color: #000;
+    background: #7f8c9a;
+    color: #fff;
   }
 
   .bootstrap-switch-label {
-    background: #fff;
-    color: #333;
+    background-color: #bdc3c7;
+    color: #fff;
     margin-bottom: -1px;
     margin-top: -1px;
     text-align: center;
+    transition: background-color 0.5s ease-in-out;
     z-index: 100;
   }
 
   .bootstrap-switch-handle-on {
-    border-bottom-left-radius: 3px;
-    border-top-left-radius: 3px;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
   }
 
   .bootstrap-switch-handle-off {
-    border-bottom-right-radius: 3px;
-    border-top-right-radius: 3px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
   }
 
   [type='radio'],
@@ -178,33 +179,28 @@
   }
 
   &.bootstrap-switch-inverse .bootstrap-switch-handle-on {
-    border-radius: 0 3px 3px 0;
+    border-radius: 0 8px 8px 0;
   }
 
   &.bootstrap-switch-inverse .bootstrap-switch-handle-off {
-    border-radius: 3px 0 0 3px;
+    border-radius: 8px 0 0 8px;
   }
 
   &.bootstrap-switch-focused {
-    border-color: #ccc;
     box-shadow: 0;
     outline: 0;
   }
 
-  &.bootstrap-switch-on,
-  &.bootstrap-switch-on.bootstrap-switch-focused {
-    border-color: $brand-primary;
-  }
-
   &.bootstrap-switch-on .bootstrap-switch-label,
   &.bootstrap-switch-inverse.bootstrap-switch-off .bootstrap-switch-label {
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
+    background-color: lighten($brand-primary, 25%);
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
   }
 
   &.bootstrap-switch-off .bootstrap-switch-label,
   &.bootstrap-switch-inverse.bootstrap-switch-on .bootstrap-switch-label {
-    border-bottom-left-radius: 8px;
-    border-top-left-radius: 8px;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
   }
 }

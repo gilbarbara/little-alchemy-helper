@@ -112,6 +112,7 @@
         display: inline-block;
         height: 24px;
         padding: 4px 0;
+        transition: color 0.4s ease-in-out;
         vertical-align: middle;
         width: 33.33%;
 
@@ -130,6 +131,11 @@
         &:hover,
         &:focus {
           text-decoration: none;
+        }
+
+        &.muted {
+          color: #999;
+          pointer-events: none;
         }
       }
     }

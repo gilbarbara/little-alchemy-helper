@@ -76,7 +76,7 @@ var Toolbar = React.createClass({
         function reset () {
             el.classList.remove('btn-danger');
             el.classList.add('btn-default');
-            el.querySelectorAll('span')[0].innerHTML = 'reset completed';
+            el.querySelectorAll('span')[0].innerHTML = 'reset';
         }
 
         if (el.classList.contains('btn-danger')) {
@@ -105,7 +105,7 @@ var Toolbar = React.createClass({
                     <button type="button" className="close" data-dismiss="alert">&times;</button>
                     <i className="fa fa-exclamation-triangle"></i> <span>Click the bookmarklet twice to reload your discovered elements</span>
                 </div>
-                <div className="row">
+                <div className="row app__toolbar__inputs">
                     <div className="col-sm-6">
                         <InputClearable type="text" id="children" value={this.state.childrenString}
                                         placeholder="Things you can make with..." autocomplete="off"
@@ -119,22 +119,32 @@ var Toolbar = React.createClass({
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-sm-3">
-                        <label>
-                            <input id="showCheats" type="checkbox" value="1"
-                                   data-on-text="<i class='fa fa-check'></i>"
-                                   data-off-text="<i class='fa fa-times'></i>"
-                                   defaultChecked={this.props.options.showCheats}/>Show Cheats?</label>
+                    <div className="col-xs-12 col-sm-6">
+                        <h4 className="app__toolbar__heading">Cheats</h4>
+                        <div className="row">
+                            <div className="col-xs-6 col-sm-6">
+                                <label className="app__toolbar__switches">
+                                    <input id="showCheats" type="checkbox" value="1"
+                                           data-on-text="<i class='fa fa-eye'></i>"
+                                           data-off-text="<i class='fa fa-eye-slash'></i>"
+                                           defaultChecked={this.props.options.showCheats}/>Show Composition?</label>
+                            </div>
+                            <div className="col-xs-6 col-sm-6">
+                                <label className="app__toolbar__switches">
+                                    <input id="showAll" type="checkbox" value="1"
+                                           data-on-text="<i class='fa fa-check'></i>"
+                                           data-off-text="<i class='fa fa-times'></i>"
+                                           defaultChecked={this.props.options.showAll}/>Show All Elements?</label>
+                            </div>
+                            </div>
                     </div>
-                    <div className="col-sm-3">
-                        <label>
-                            <input id="showAll" type="checkbox" value="1"
-                                   data-on-text="<i class='fa fa-check'></i>"
-                                   data-off-text="<i class='fa fa-times'></i>"
-                                   defaultChecked={this.props.options.showAll}/>Show All?</label>
-                    </div>
-                    <div className="col-sm-6">
+                    <div className="col-xs-12 col-sm-6 app__toolbar__completed">
+                        <h4 className="app__toolbar__heading">Progress</h4>
                         <div className="btn-group btn-group-sm" role="group">
+                            <button className="btn btn-default disabled"><i
+                                className="fa fa-check"></i>
+                                <span>{this.props.completedCount}</span>
+                            </button>
                             <button id="showCompleted"
                                     className={'btn ' + (this.props.options.showCompleted ? 'btn-primary' : 'btn-default')}
                                     onClick={this._onClick}><i
@@ -142,12 +152,7 @@ var Toolbar = React.createClass({
                             </button>
                             <button id="resetCompleted" className="btn btn-default"
                                     onClick={this._onClickReset}><i
-                                className="fa fa-exclamation-triangle"></i><span>reset completed</span></button>
-
-                            <button className="btn btn-default disabled"><i
-                                className="fa fa-check"></i>
-                                <span>{this.props.completedCount}</span><span>completed</span>
-                            </button>
+                                className="fa fa-exclamation-triangle"></i><span>reset </span></button>
                         </div>
                     </div>
                 </div>

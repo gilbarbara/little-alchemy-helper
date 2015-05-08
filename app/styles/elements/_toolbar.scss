@@ -1,49 +1,95 @@
 .app__toolbar {
-  margin-top: $grid-gutter-width;
+  margin-top: $grid-gutter-width / 2;
 
-  .row + .row {
+  @include md {
     margin-top: $grid-gutter-width;
   }
 
-  .bootstrap-switch {
-    + span {
-      margin-left: 8px;
-      vertical-align: middle;
+  .row + .row {
+    margin-top: $grid-gutter-width / 2;
+
+    @include md {
+      margin-top: $grid-gutter-width;
+    }
+  }
+
+  &__inputs {
+    > div + div {
+      @include sm-only {
+        margin-top: 10px;
+      }
+    }
+
+    .clearable {
+      position: relative;
+
+      a {
+        color: #ccc;
+        display: none;
+        font-size: 18px;
+        position: absolute;
+        right: 10px;
+        text-decoration: none;
+        top: 14px;
+      }
+
+      &.full a {
+        display: block;
+      }
+    }
+  }
+  
+  &__heading {
+    color: $brand-primary;
+    margin-top: 0;
+  }
+
+  &__switches {
+    color: #999;
+    font-size: 12px;
+    font-weight: 400;
+
+    @include sm-only {
+      display: block;
+      margin-bottom: 1.5rem;
+    }
+
+    .bootstrap-switch {
+      + span {
+        display: block;
+        margin-top: 4px;
+
+        @include lg {
+          display: inline-block;
+          margin: 0 0 0 8px;
+          vertical-align: middle;
+        }
+      }
     }
   }
 
   .btn-group {
+    .btn {
+      &:nth-of-type(2) {
+        &.btn-primary {
+          background-color: lighten($brand-primary, 15%);
+        }
+      }
 
-    .btn.disabled {
-      color: $brand-primary;
-      opacity: 0.8;
+      &.disabled {
+        background-color: $brand-primary;
+        border-color: $brand-primary;
+        color: #fff;
+        opacity: 1;
+      }
     }
-    
+
     [class^=fa] {
       margin-right: 4px;
     }
 
     span + span {
       margin-left: 3px;
-    }
-  }
-
-
-  .clearable {
-    position: relative;
-
-    a {
-      color: #ccc;
-      display: none;
-      font-size: 18px;
-      position: absolute;
-      right: 10px;
-      text-decoration: none;
-      top: 14px;
-    }
-
-    &.full a {
-      display: block;
     }
   }
 }

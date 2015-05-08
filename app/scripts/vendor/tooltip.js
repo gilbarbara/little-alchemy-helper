@@ -18,16 +18,21 @@
             var $this = $(this);
 
             function fillTooltip (e, $el) {
-                var offset = $(e.currentTarget).offset();
-
-                $tooltip
-                    .find('.image').css('backgroundImage', 'url(' + $el.find('img').prop('src') + ')').end()
-                    .find('h4').text($el.find('h5').text()).end()
-                    .find('.made').html($('#showCheats').is(':checked') ? $el.data('composition').replace(/\+/g, ' + ').replace(/;/g, '<br/>') : '').end()
-                    .find('h5').css('display', ($el.data('make').length ? 'block' : 'none')).end()
-                    .find('.make').html($el.data('make')).end()
-                    .css({ top: offset.top + 25, left: offset.left + 200 > $(window).width() ? offset.left - 200 : offset.left + 25 })
-                    .show();
+                var $info = $(e.currentTarget),
+                    offset = $info.offset();
+                if (!$info.find('.fa').hasClass('fa-eye-slash')) {
+                    $tooltip
+                        .find('.image').css('backgroundImage', 'url(' + $el.find('img').prop('src') + ')').end()
+                        .find('h4').text($el.find('h5').text()).end()
+                        .find('.made').html($el.data('composition').replace(/\+/g, ' + ').replace(/;/g, '<br/>')).end()
+                        .find('h5').css('display', ($el.data('make').length ? 'block' : 'none')).end()
+                        .find('.make').html($el.data('make')).end()
+                        .css({
+                            top: offset.top + 25,
+                            left: offset.left + 200 > $(window).width() ? offset.left - 200 : offset.left + 25
+                        })
+                        .show();
+                }
             }
 
             if (/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
