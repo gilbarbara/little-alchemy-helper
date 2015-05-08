@@ -49,7 +49,7 @@ imgDB.indexedDB.open = function () {
                     var store = db.createObjectStore('todo',
                         { keyPath: 'timeStamp' });
                     var trans = req.result;
-                    trans.oncomplete = function (e) {
+                    trans.oncomplete = function () {
                         console.log('== oncomplete transaction ==');
                         imgDB.indexedDB.getAll();
                     };
@@ -134,4 +134,3 @@ imgDB.indexedDB.getAll = function () {
 
     return result.value;
 };
-

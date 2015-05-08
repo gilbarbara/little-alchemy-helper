@@ -1,17 +1,17 @@
-var gulp                  = require('gulp'),
-    $                     = require('gulp-load-plugins')(),
-    bowerFiles            = require('main-bower-files'),
-    browserify            = require('browserify'),
-    browserSync           = require('browser-sync'),
-    buffer                = require('vinyl-buffer'),
-    del                   = require('del'),
-    historyApiFallback    = require('connect-history-api-fallback'),
-    merge                 = require('merge-stream'),
-    path                  = require('path'),
-    runSequence           = require('run-sequence'),
-    source                = require('vinyl-source-stream'),
-    watchify              = require('watchify'),
-    wiredep               = require('wiredep').stream,
+var gulp = require('gulp'),
+    $ = require('gulp-load-plugins')(),
+    bowerFiles = require('main-bower-files'),
+    browserify = require('browserify'),
+    browserSync = require('browser-sync'),
+    buffer = require('vinyl-buffer'),
+    del = require('del'),
+    historyApiFallback = require('connect-history-api-fallback'),
+    merge = require('merge-stream'),
+    path = require('path'),
+    runSequence = require('run-sequence'),
+    source = require('vinyl-source-stream'),
+    watchify = require('watchify'),
+    wiredep = require('wiredep').stream,
     AUTOPREFIXER_BROWSERS = [
         'ie >= 10',
         'ie_mob >= 10',
@@ -29,7 +29,7 @@ var middleware = historyApiFallback({});
 var isProduction = function () {
         return process.env.NODE_ENV === 'production';
     },
-    config       = {
+    config = {
         dest: function () {
             return (isProduction() ? 'dist' : '.tmp');
         }
@@ -37,7 +37,7 @@ var isProduction = function () {
 
 // Functions
 
-function watchifyTask (options) {
+function watchifyTask(options) {
     var bundler, rebundle, iteration = 0;
     bundler = browserify({
         entries: path.join(__dirname, '/app/scripts/main.js'),
@@ -48,7 +48,7 @@ function watchifyTask (options) {
         packageCache: {}, // required for watchify
         fullPaths: options.watch, // required to be true only for watchify
         transform: [
-            ['babelify', { ignore: /bower_components/ }]
+            ['babelify', {ignore: /bower_components/}]
         ],
         extensions: ['.jsx']
     });
@@ -170,7 +170,7 @@ gulp.task('bundle', function () {
         'app/*.*',
         '!app/*.html',
         'app/api/**'
-    ], { dot: true, base: 'app/' })
+    ], {dot: true, base: 'app/'})
         .pipe(gulp.dest('dist'))
         .pipe($.size({
             title: 'Bundle:copy'
@@ -179,19 +179,9 @@ gulp.task('bundle', function () {
     return merge(html, vendor, files);
 });
 
-gulp.task('clean', del.bind(null, [config.dest() + '/*']));
-
-gulp.task('sizer', function () {
-    return gulp.src(config.dest() + '/**/*')
-        .pipe($.size({
-            title: 'Size',
-            gzip: true
-        }));
-});
-
 gulp.task('wiredep', function () {
     return gulp.src('app/index.html')
-        .pipe(wiredep({ exclude: ['bootstrap-sass'] }))
+        .pipe(wiredep({exclude: ['bootstrap-sass']}))
         .pipe(gulp.dest('app'))
         .pipe($.size({
             title: 'wiredep'
@@ -211,7 +201,23 @@ gulp.task('mocha', function () {
         }));
 });
 
-gulp.task('clean', del.bind(null, [config.dest()]));
+gulp.task('clean', del.bind(null, [config.dest() + '/*']));
+
+gulp.task('sizer', function () {
+    return gulp.src(config.dest() + '/**/*')
+        .pipe($.size({
+            title: 'Size',
+            gzip: true
+        }));
+});
+
+gulp.task('sync', function () {
+    return gulp.src('', {read: false})
+        .pipe($.shell([
+            'rsync -rvpa --progress --delete --exclude=.DS_Store -e "ssh -q -t" dist/* lahelper@littlealchemyhelper.com:/home/lahelper/public_html/beta'
+        ])
+    );
+});
 
 gulp.task('serve', ['assets', 'scripts'], function () {
     browserSync({
@@ -234,9 +240,14 @@ gulp.task('serve', ['assets', 'scripts'], function () {
     gulp.watch('bower.json', ['wiredep', browserSync.reload]);
 });
 
-gulp.task('build', ['clean'], function () {
+gulp.task('build', ['clean'], function (callback) {
     process.env.NODE_ENV = 'production';
-    runSequence('lint', ['assets', 'scripts', 'bundle'], 'sizer');
+    runSequence('lint', ['assets', 'scripts', 'bundle'], 'sizer', callback);
+});
+
+gulp.task('deploy', function (callback) {
+    process.env.NODE_ENV = 'production';
+    runSequence('build', 'sync', callback);
 });
 
 gulp.task('default', ['serve']);
