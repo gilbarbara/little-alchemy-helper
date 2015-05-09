@@ -1,18 +1,37 @@
 var Storage = {
     getItem: function (name) {
-        return JSON.parse(localStorage.getItem(name));
+        var item = this.isLocalStorageNameSupported() ? localStorage.getItem(name) : name;
+        return JSON.parse(item);
     },
 
     setItem: function (name, value) {
-        localStorage.setItem(name, JSON.stringify(value));
+        if (this.isLocalStorageNameSupported()) {
+            localStorage.setItem(name, JSON.stringify(value));
+        }
     },
 
     removeItem: function (name) {
-        localStorage.removeItem(name);
+        if (this.isLocalStorageNameSupported()) {
+            localStorage.removeItem(name);
+        }
     },
 
     clearAll: function () {
-        localStorage.clear();
+        if (this.isLocalStorageNameSupported()) {
+            localStorage.clear();
+        }
+    },
+
+    isLocalStorageNameSupported: function () {
+        var testKey = 'test', storage = window.sessionStorage;
+        try {
+            storage.setItem(testKey, '1');
+            storage.removeItem(testKey);
+            return true;
+        }
+        catch (error) {
+            return false;
+        }
     }
 };
 

@@ -1,7 +1,17 @@
 .app__footer {
-  border-top: 1px solid #EEEEEE;
   padding-bottom: 16px;
   padding-top: 16px;
+  position: relative;
+  
+  &:before {
+    background: linear-gradient(90deg, $brand-primary, lighten($brand-primary, 40%));
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 0;
+    height: 2px;
+    width: 100%;
+  }
 
   a {
     color: $brand-primary;

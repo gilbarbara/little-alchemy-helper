@@ -189,7 +189,7 @@ gulp.task('wiredep', function () {
 });
 
 gulp.task('assets', function (cb) {
-    runSequence('styles', ['wiredep', 'media', 'fonts'], cb);
+    runSequence(['styles', 'scripts', 'wiredep', 'media', 'fonts'], cb);
 });
 
 gulp.task('mocha', function () {
@@ -214,12 +214,12 @@ gulp.task('sizer', function () {
 gulp.task('sync', function () {
     return gulp.src('', {read: false})
         .pipe($.shell([
-            'rsync -rvpa --progress --delete --exclude=.DS_Store -e "ssh -q -t" dist/* lahelper@littlealchemyhelper.com:/home/lahelper/public_html/beta'
+            'rsync -rvpa --progress --delete --exclude=.DS_Store -e "ssh -q -t" dist/ lahelper@littlealchemyhelper.com:/home/lahelper/public_html/beta'
         ])
     );
 });
 
-gulp.task('serve', ['assets', 'scripts'], function () {
+gulp.task('serve', ['assets'], function () {
     browserSync({
         notify: true,
         logPrefix: 'l.a.h',
@@ -242,7 +242,7 @@ gulp.task('serve', ['assets', 'scripts'], function () {
 
 gulp.task('build', ['clean'], function (callback) {
     process.env.NODE_ENV = 'production';
-    runSequence('lint', ['assets', 'scripts', 'bundle'], 'sizer', callback);
+    runSequence('lint', ['assets', 'bundle'], 'sizer', callback);
 });
 
 gulp.task('deploy', function (callback) {

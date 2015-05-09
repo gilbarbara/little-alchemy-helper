@@ -106,8 +106,8 @@
   }
 
   .bootstrap-switch-handle-on {
-    border-bottom-left-radius: 2px;
-    border-top-left-radius: 2px;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
   }
 
   .bootstrap-switch-handle-off {
@@ -189,18 +189,28 @@
   &.bootstrap-switch-focused {
     box-shadow: 0;
     outline: 0;
+
+    &.bootstrap-switch-on .bootstrap-switch-label {
+      border-bottom-right-radius: 0;
+      border-top-right-radius: 0;
+    }
+
+    &.bootstrap-switch-off .bootstrap-switch-label {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
   }
 
   &.bootstrap-switch-on .bootstrap-switch-label,
   &.bootstrap-switch-inverse.bootstrap-switch-off .bootstrap-switch-label {
     background-color: lighten($brand-primary, 25%);
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
+    border-bottom-right-radius: 7px;
+    border-top-right-radius: 7px;
   }
 
   &.bootstrap-switch-off .bootstrap-switch-label,
   &.bootstrap-switch-inverse.bootstrap-switch-on .bootstrap-switch-label {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
+    border-bottom-left-radius: 7px;
+    border-top-left-radius: 7px;
   }
 }

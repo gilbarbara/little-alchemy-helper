@@ -2,6 +2,7 @@ var React   = require('react/addons'),
     _       = require('lodash'),
     $       = require('jquery'),
     tooltip = require('../../vendor/tooltip'),
+    Loader  = require('../elements/Loader'),
     Element = require('./Element');
 
 var Library = React.createClass({
@@ -147,7 +148,8 @@ var Library = React.createClass({
                     data-composition={d.parents ? options.parents.join(';') : ''}
                     data-make={options.children.join(', ')}>
                     <div className="buttons">
-                        <a href="#" className={'info' + (!this.props.options.showCheats ? ' muted' : '') }><i className={'fa ' + (this.props.options.showCheats ? 'fa-eye' : 'fa-eye-slash')}></i>
+                        <a href="#" className={'info' + (!this.props.options.showCheats ? ' muted' : '') }><i
+                            className={'fa ' + (this.props.options.showCheats ? 'fa-eye' : 'fa-eye-slash')}></i>
                         </a>
                         <a href="#" title="mark as completed"
                            className={'status ' + (options.completed ? 'remove' : 'add')}
@@ -161,8 +163,8 @@ var Library = React.createClass({
                         }</a>
                     </div>
                     <div className="image">
-                        <img
-                            src={(d.image ? 'data:image/png;base64,' + d.image : '../media/blank.png')}/>
+                        {d.image ? <img src={'data:image/png;base64,' + d.image}/> : <Loader/>}
+
                     </div>
                     <h5>{ d.name}</h5>
                     { options.children.length ? <span className="count">{options.children.length}</span> : null}
