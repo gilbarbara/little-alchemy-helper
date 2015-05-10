@@ -121,13 +121,13 @@ gulp.task('lint', function () {
 
 gulp.task('media', function () {
     return gulp.src('app/media/**/*')
-        .pipe($.cache($.imagemin({
+        .pipe($.imagemin({
             verbose: true
         }, {
             progressive: true,
             interlaced: true
-        })))
-        .pipe(gulp.dest(config.dest() + '/media'))
+        }))
+        .pipe(gulp.dest('dist/media'))
         .pipe($.size({
             title: 'Media'
         }));
@@ -144,7 +144,7 @@ gulp.task('fonts', function () {
         }));
 });
 
-gulp.task('bundle', function () {
+gulp.task('bundle', ['media'], function () {
     var html,
         vendor,
         files,
@@ -189,7 +189,7 @@ gulp.task('wiredep', function () {
 });
 
 gulp.task('assets', function (cb) {
-    runSequence(['styles', 'scripts', 'wiredep', 'media', 'fonts'], cb);
+    runSequence(['styles', 'scripts', 'wiredep', 'fonts'], cb);
 });
 
 gulp.task('mocha', function () {
@@ -214,7 +214,7 @@ gulp.task('sizer', function () {
 gulp.task('sync', function () {
     return gulp.src('', {read: false})
         .pipe($.shell([
-            'rsync -rvpa --progress --delete --exclude=.DS_Store -e "ssh -q -t" dist/ lahelper@littlealchemyhelper.com:/home/lahelper/public_html/beta'
+            'rsync -rvpa --progress --delete --exclude=.DS_Store -e "ssh -q -t" dist/ lahelper@littlealchemyhelper.com:/home/lahelper/public_html'
         ])
     );
 });

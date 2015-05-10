@@ -2,13 +2,13 @@ var React           = require('react'),
     _               = require('lodash'),
     $               = require('jquery'),
     bootstrapSwitch = require('bootstrap-switch'),
+    config          = require('../config'),
     AppActions      = require('../actions/AppActions'),
     AppConstants    = require('../constants/AppConstants'),
     LAStore         = require('../stores/LAStore'),
     Cookies         = require('./mixins/Cookies'),
     Help            = require('./elements/Help'),
     Header          = require('./elements/Header'),
-    DesktopAlert    = require('./elements/DesktopAlert'),
     Toolbar         = require('./elements/Toolbar'),
     Library         = require('./Library/Library'),
     Footer          = require('./elements/Footer'),
@@ -31,9 +31,30 @@ var App = React.createClass({
             options: {
                 showCompleted: false,
                 showAll: false,
-                showCheats: false
+                showCheats: false,
+                iframe: false,
+                outdated: false
             }
         };
+    },
+
+    componentWillMount: function () {
+        if (this.getQueryOption('type') === 'iframe') {
+            window.onmessage = function (e) {
+                if (e.data.length) {
+                    this._onReceiveData(e.data);
+                }
+            }.bind(this);
+
+            this.setState(React.addons.update(this.state,
+                {
+                    options: {
+                        iframe: { $set: true },
+                        outdated: { $set: !!(!this.getQueryOption('version') || this.getQueryOption('version') !== config.bookmarkletVersion) }
+                    }
+                }
+            ));
+        }
     },
 
     componentDidMount: function () {
@@ -154,6 +175,12 @@ var App = React.createClass({
         return results === null ? false : decodeURIComponent(results[1].replace(/\+/g, ' '));
     },
 
+    _onReceiveData: function (data) {
+      this.setState({
+          completed: data.sort()
+      });
+    },
+
     _setFilter: function (filters) {
         filters = filters.value !== undefined && !filters.value.length ? {} : filters;
         this.setState({ filter: filters });
@@ -198,23 +225,21 @@ var App = React.createClass({
 
         if (this.state.ready) {
             output.library = (<Library names={this.state.names} elements={this.state.elements}
-                                      options={this.state.options} completed={this.state.completed}
-                                      filter={this.state.filter} setFilter={this._setFilter}
-                                      setStatus={this._setStatus}/>);
+                                       options={this.state.options} completed={this.state.completed}
+                                       filter={this.state.filter} setFilter={this._setFilter}
+                                       setStatus={this._setStatus}/>);
 
             output.toolbar = (<Toolbar filter={this.state.filter} setFilter={this._setFilter}
-                                      options={this.state.options} setOptions={this._setOptions}
-                                      completedCount={this.state.completed.length}/>);
+                                       options={this.state.options} setOptions={this._setOptions}
+                                       completedCount={this.state.completed.length}/>);
         }
 
         return (
             <div className="app">
+                <Header elementsCount={this.state.elementsCount}/>
+                <Help/>
                 <main className="app__content">
-                    <Header elementsCount={this.state.elementsCount}/>
-                    <Help/>
-
                     <div className="app__container">
-                        <DesktopAlert/>
                         {output.toolbar}
                         {output.library}
                     </div>

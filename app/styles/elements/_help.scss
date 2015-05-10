@@ -1,0 +1,32 @@
+
+.help {
+  background-color: #fff;
+  border-bottom: 2px solid $brand-primary;
+  display: none;
+
+  i {
+    color: $brand-primary;
+    display: inline-block;
+    font-size: 24px;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
+  span {
+    vertical-align: middle;
+  }
+
+  [class^=col-] {
+    text-align: left;
+
+    @include xs-only {
+      + div {
+        margin-top: 5px;
+      }
+    }
+
+    @include sm {
+      text-align: center;
+    }
+  }
+}

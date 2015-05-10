@@ -14,8 +14,7 @@
     }
     
     .element {
-      background-color: $brand-primary;
-      color: #fff;
+      color: $brand-primary;
       display: inline-block;
       line-height: 1;
       padding: 4px 5px 4px 10px;
@@ -26,7 +25,7 @@
       }
 
       > a {
-        color: #fff;
+        color: $brand-primary;
         font-size: 18px;
         margin-left: 10px;
         text-decoration: none;
@@ -66,7 +65,7 @@
   }
 
   .item {
-    background-color: #d8d3c6;
+    background-color: darken($item, 10%);
     display: block;
     height: 164px;
     line-height: 1;
@@ -104,7 +103,7 @@
     }
 
     .buttons {
-      background-color: #eee;
+      background-color: lighten($item, 10%);
       border-bottom: 1px solid #ccc;
 
       a {

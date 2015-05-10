@@ -1,0 +1,44 @@
+CACHE MANIFEST
+# 2015-05-10: v.114
+
+CACHE:
+favicon.ico
+
+media/icon.png
+media/icon.svg
+media/og-image.png
+
+scripts/app.js
+scripts/vendor/modernizr.js
+
+styles/main.css
+styles/fonts/fontawesome-webfont.eot
+styles/fonts/fontawesome-webfont.svg
+styles/fonts/fontawesome-webfont.ttf
+styles/fonts/fontawesome-webfont.woff
+styles/fonts/fontawesome-webfont.woff2
+
+NETWORK:
+*
+
+FALLBACK:
+favicon.ico offline/favicon.ico
+
+media/icon.png offline/media/icon.png
+media/icon.svg offline/media/icon.svg
+media/og-image.png offline/media/og-image.png
+
+scripts/app.js offline/scripts/app.js
+scripts/vendor/modernizr.js offline/scripts/vendor/modernizr.js
+
+styles/main.css offline/styles/main.css
+
+styles/fonts/fontawesome-webfont.eot offline/styles/fonts/fontawesome-webfont.eot
+styles/fonts/fontawesome-webfont.svg offline/styles/fonts/fontawesome-webfont.svg
+styles/fonts/fontawesome-webfont.ttf offline/styles/fonts/fontawesome-webfont.ttf
+styles/fonts/fontawesome-webfont.woff offline/styles/fonts/fontawesome-webfont.woff
+styles/fonts/fontawesome-webfont.woff2 offline/styles/fonts/fontawesome-webfont.woff2
+
+api/114/base offline/api/114/base
+api/114/names offline/api/114/names
+api/114/images offline/api/114/images

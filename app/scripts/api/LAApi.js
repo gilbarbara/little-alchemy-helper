@@ -3,7 +3,7 @@ var $       = require('jquery'),
     XHR     = require('../constants/AppConstants').XHR;
 
 var LAApi = {
-    url: 'http://littlealchemyhelper.com/api/?url=',
+    url: 'http://littlealchemyhelper.com/api',
 
     fetchBase: function (release) {
         var AppActions = require('../actions/AppActions'),
@@ -14,7 +14,7 @@ var LAApi = {
         }
         else {
             $.ajax({
-                url: this.url + encodeURIComponent('http://littlealchemy.com/offline/resources/base.' + release + '.json'),
+                url: this.url + '/' + release + '/' + 'base',
                 method: 'GET',
                 dataType: 'json',
                 complete: function (xhr) {
@@ -44,7 +44,7 @@ var LAApi = {
         }
         else {
             $.ajax({
-                url: this.url + encodeURIComponent('http://littlealchemy.com/offline/resources/en/names.' + release + '.json'),
+                url: this.url + '/' + release + '/' + 'names',
                 method: 'GET',
                 dataType: 'json',
                 complete: function (xhr) {
@@ -69,7 +69,7 @@ var LAApi = {
         var AppActions = require('../actions/AppActions');
 
         $.ajax({
-            url: this.url + encodeURIComponent('http://littlealchemy.com/offline/resources/images.' + release + '.json'),
+            url: this.url + '/' + release + '/' + 'images',
             method: 'GET',
             dataType: 'json',
             complete: function (xhr) {
@@ -80,6 +80,7 @@ var LAApi = {
                 }
                 else if (xhr.status < 299) {
                     AppActions.imagesLoaded(XHR.SUCCESS, xhr.responseJSON);
+                    //Storage.setItem('images_' + release, JSON.stringify(xhr.responseJSON));
                 }
                 else {
                     AppActions.imagesLoaded(XHR.FAIL, xhr.responseJSON);

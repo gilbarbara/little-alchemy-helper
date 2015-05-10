@@ -12,7 +12,8 @@ var State = StateHelper.init({
         fetchNames: undefined,
         fetchImages: undefined
     }
-});
+}),
+    images = {};
 
 var LAStore = assign(new Store(), EventEmitter.prototype, {
     process: function (payload) {
@@ -70,13 +71,11 @@ var LAStore = assign(new Store(), EventEmitter.prototype, {
     },
 
     handleFetchImages: function (action) {
-        var state = State.get();
-        state.fetchImages = action;
-        State.set(state);
+        images = action;
     },
 
     fetchImagesResponse: function () {
-        return State.get().fetchImages;
+        return images;
     }
 
 });

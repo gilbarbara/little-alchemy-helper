@@ -32,12 +32,27 @@ var Toolbar = React.createClass({
 
     componentDidMount: function () {
         var $switches = $('[type=checkbox], [type=radio]'),
+            $reloader,
             that      = this;
 
         $switches.not('[data-switch-no-init]').bootstrapSwitch();
         $switches.on('switchChange.bootstrapSwitch', function (event, state) {
             that.props.setOptions(this.id, state);
         });
+
+        if (this.props.options.iframe) {
+            $('body').addClass('bookmarklet');
+
+            if (!this.props.options.outdated) {
+                $reloader = $(React.findDOMNode(this.refs.reloader));
+
+                setTimeout(function () {
+                    if ($reloader.is(':visible')) {
+                        $reloader.slideUp();
+                    }
+                }, 7500);
+            }
+        }
     },
 
     _onChange: function (e) {
@@ -97,13 +112,40 @@ var Toolbar = React.createClass({
         }
     },
 
+    _onClickClose: function (e) {
+        e.preventDefault();
+        $(e.currentTarget).parent().slideUp();
+    },
+
     render: function () {
         //console.log('Toolbar:render', this.props.filter);
+        var options = {
+            bookmarklet: (
+                <h5><a className="label label-primary"
+                   href="javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahUrl='http://littlealchemyhelper.com/index.html?type=iframe&version=0.4&import='+game.progress.sort(function(a,b){return a-b;}).join(',');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:20,left:50,border:'1px solid #ccc',width:425,height:$(window).height()-100}).appendTo('body');$(document).on('newChildCreated',function(){document.querySelectorAll('#laHelper')[0].contentWindow.postMessage(game.progress,'*');})}else{$('#laHelper').remove();}}})();">LittleAlchemyHelper</a></h5>
+            ),
+            alert: <span>Click the bookmarklet twice to reload your discovered elements</span>
+    };
+
+        if (this.props.options.outdated) {
+            options.alert = (
+                <span>You are using an old version of the bookmarklet. Please remove it from your bookmarks bar and drag again
+                    {options.bookmarklet}
+                </span>);
+        }
+
         return (
             <div className="app__toolbar">
-                <div id="reloader" className="alert alert-dismissible">
-                    <button type="button" className="close" data-dismiss="alert">&times;</button>
-                    <i className="fa fa-exclamation-triangle"></i> <span>Click the bookmarklet twice to reload your discovered elements</span>
+                <blockquote className="desktop-alert">If you are playing the game on a desktop browser, drag the button
+                    below to you bookmarks bar and click it while in the game.
+                    {options.bookmarklet}
+                    <a href="#" className="close" aria-label="Close" onClick={this._onClickClose}><i
+                        className="fa fa-times-circle"></i></a>
+                </blockquote>
+                <div ref="reloader" className="alert alert-dismissible" role="alert">
+                    <button type="button" className="close" aria-label="Close"
+                            onClick={this._onClickClose}>&times;</button>
+                    <i className="fa fa-exclamation-triangle"></i> {options.alert}
                 </div>
                 <div className="row app__toolbar__inputs">
                     <div className="col-sm-6">
@@ -121,6 +163,7 @@ var Toolbar = React.createClass({
                 <div className="row">
                     <div className="col-xs-12 col-sm-6">
                         <h4 className="app__toolbar__heading">Cheats</h4>
+
                         <div className="row">
                             <div className="col-xs-6 col-sm-6">
                                 <label className="app__toolbar__switches">
@@ -136,10 +179,11 @@ var Toolbar = React.createClass({
                                            data-off-text="<i class='fa fa-times'></i>"
                                            defaultChecked={this.props.options.showAll}/>Show All Elements?</label>
                             </div>
-                            </div>
+                        </div>
                     </div>
                     <div className="col-xs-12 col-sm-6 app__toolbar__completed">
                         <h4 className="app__toolbar__heading">Progress</h4>
+
                         <div className="btn-group btn-group-sm" role="group">
                             <button className="btn btn-default disabled"><i
                                 className="fa fa-check"></i>

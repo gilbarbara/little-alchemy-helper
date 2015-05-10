@@ -11,6 +11,7 @@
 // Elements
 @import 'elements/loader';
 @import 'elements/header';
+@import 'elements/help';
 @import 'elements/footer';
 @import 'elements/switch';
 @import 'elements/toolbar';
@@ -47,33 +48,6 @@ body {
   }
 }
 
-.help {
-  background-color: #fff;
-  border-bottom: 2px solid $brand-primary;
-  display: none;
-
-  i {
-    color: $brand-primary;
-    display: inline-block;
-    font-size: 24px;
-    margin-right: 5px;
-    vertical-align: middle;
-  }
-
-  span {
-    vertical-align: middle;
-  }
-
-  [class^=col-] {
-    text-align: center;
-  }
-}
-
-#reloader {
-  display: none;
-  margin-bottom: 15px;
-}
-
 .tooltip {
   background-color: #444;
   border-radius: 8px;
@@ -98,27 +72,5 @@ body {
 
   .make {
     font-style: italic;
-  }
-}
-
-blockquote {
-  position: relative;
-
-  a.close {
-    font-size: 14px;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-}
-
-.alert {
-  background-color: lighten($brand-primary, 36%);
-  border-color: lighten($brand-primary, 32%);
-  color: $brand-primary;
-
-  .close {
-    color: $brand-primary;
-    opacity: 0.7;
   }
 }

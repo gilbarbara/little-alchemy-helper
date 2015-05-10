@@ -1,29 +1,51 @@
 .app__header {
+  @include background-image-svg(#{$media-path}icon, 50px, 50px);
   background-color: $brand-primary;
+  background-position: 1rem center;
+  background-repeat: no-repeat;
   color: #fff;
-  padding: 30px 30px 50px;
+  padding: 1.5rem 1.5rem 1.5rem 7.5rem;
   position: relative;
 
   @include md {
-    background: $brand-primary url("#{$media-path}/icon.png") no-repeat 20px center;
-    background-size: 96px;
+    background-position: 2rem center;
+    background-size: 10rem;
+    padding: 3rem;
+  }
+
+  @at-root .bookmarklet & {
+    min-height: 80px;
   }
 
   h1 {
-    font-size: 24px;
+    font-size: 2.4rem;
     font-weight: 300;
     margin-top: 0;
-    text-align: center;
 
     @include md {
-      font-size: 48px;
+      font-size: 4.8rem;
+      text-align: center;
+    }
+
+    @at-root .bookmarklet & {
+      margin-top: 12px;
     }
   }
 
   h4 {
+    font-size: 1.4rem;
     font-weight: 300;
+    line-height: 2rem;
     margin-bottom: 0;
-    text-align: center;
+
+    @include md {
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    @at-root .bookmarklet & {
+      display: none;
+    }
 
     a {
       color: #fff;
@@ -37,8 +59,8 @@
     border-radius: 6px 6px 0 0;
     bottom: 0;
     color: $brand-primary;
-    font-size: 12px;
-    padding: 4px 12px;
+    font-size: 1.2rem;
+    padding: 2px 6px;
     position: absolute;
     right: 15px;
     text-decoration: none;

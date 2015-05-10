@@ -1,7 +1,22 @@
 <?php
 error_reporting(0);
-$url = $_REQUEST['url'];
-$file = preg_replace("/^.*\//", "", $url);
+$type = $_REQUEST['type'];
+
+$endpoints = array(
+    'base' => array(
+        'name' => 'base.' . $_REQUEST['release'] . '.json',
+        'url' => 'http://littlealchemy.com/offline/resources/base.' . $_REQUEST['release'] . '.json'
+    ),
+    'names' => array(
+        'name' => 'names.' . $_REQUEST['release'] . '.json',
+        'url' => 'http://littlealchemy.com/offline/resources/en/names.' . $_REQUEST['release'] . '.json'
+    ),
+    'images' => array(
+        'name' => 'images.' . $_REQUEST['release'] . '.json',
+        'url' => 'http://littlealchemy.com/offline/resources/images.' . $_REQUEST['release'] . '.json'
+    )
+);
+
 
 /* gets the contents of a file if it exists, otherwise grabs and caches */
 function get_content($file, $url, $hours = 24, $fn = '', $fn_args = '') {
@@ -37,4 +52,4 @@ function get_url($url) {
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
-echo get_content($file, $url);
+echo get_content($endpoints[$type]['name'], $endpoints[$type]['url']);

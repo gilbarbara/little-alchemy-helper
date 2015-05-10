@@ -29,7 +29,7 @@
                         .find('.make').html($el.data('make')).end()
                         .css({
                             top: offset.top + 25,
-                            left: offset.left + 200 > $(window).width() ? offset.left - 200 : offset.left + 25
+                            left: offset.left + 200 > $(window).width() ? offset.left - 100 : offset.left + 25
                         })
                         .show();
                 }
