@@ -7,6 +7,7 @@ var React           = require('react'),
     AppConstants    = require('../constants/AppConstants'),
     LAStore         = require('../stores/LAStore'),
     Cookies         = require('./mixins/Cookies'),
+    Utils           = require('./mixins/Utils'),
     Help            = require('./elements/Help'),
     Header          = require('./elements/Header'),
     Toolbar         = require('./elements/Toolbar'),
@@ -15,7 +16,7 @@ var React           = require('react'),
     Loader          = require('./elements/Loader');
 
 var App = React.createClass({
-    mixins: [React.addons.PureRenderMixin, Cookies],
+    mixins: [React.addons.PureRenderMixin, Cookies, Utils],
 
     getInitialState: function () {
         return {
@@ -39,22 +40,38 @@ var App = React.createClass({
     },
 
     componentWillMount: function () {
-        if (this._getQueryOption('type') === 'iframe') {
-                window.onmessage = function (e) {
-                    if (e.data.length) {
-                        this._onReceiveData(e.data);
-                    }
-                }.bind(this);
+        var state   = this.state,
+            _cookie = this._getCookie();
 
-            this.setState(React.addons.update(this.state,
+        if (this._getQueryOption('type') === 'iframe') {
+            window.onmessage = function (e) {
+                if (e.data.length) {
+                    this._onReceiveData(e.data);
+                }
+            }.bind(this);
+
+            state = React.addons.update(state,
                 {
                     options: {
                         iframe: { $set: true },
                         outdated: { $set: !!(!this._getQueryOption('version') || this._getQueryOption('version') !== config.bookmarkletVersion) }
                     }
                 }
-            ));
+            );
         }
+
+        state = React.addons.update(state,
+            {
+                completed: { $set: _cookie.completed },
+                options: {
+                    showCompleted: { $set: _cookie.showCompleted },
+                    showAll: { $set: _cookie.showAll },
+                    showCheats: { $set: _cookie.showCheats }
+                }
+            }
+        );
+
+        this.setState(state);
     },
 
     componentDidMount: function () {
@@ -70,11 +87,10 @@ var App = React.createClass({
         if (!_.size(this.state.names)) {
             AppActions.fetchNames();
         }
+
         if (_.size(this.state.names) && !_.size(prevState.names)) {
-            var _cookie = this._getCookie();
             this.setState({
                 elements: this._buildElements(),
-                completed: _cookie,
                 ready: true
             });
             AppActions.fetchImages();
@@ -128,93 +144,6 @@ var App = React.createClass({
             else {
                 state.error = 'Unable to load images';
             }
-        }
-
-        this.setState(state);
-    },
-
-    _buildElements: function (images) {
-        var state    = this.state,
-            elements = {};
-
-        images = images || this.state.images;
-
-        _.each(state.base, function (b1, i1) {
-            elements[i1] = {
-                id: i1,
-                name: state.names[i1],
-                image: images[i1],
-                prime: b1.prime
-            };
-
-            if (!b1.prime) {
-                elements[i1].parents = [];
-                _.each(b1.parents, function (p) {
-                    elements[i1].parents.push([p[0], p[1]]);
-                });
-            }
-            elements[i1].children = [];
-
-            _.each(state.base, function (b2, i2) {
-                _.each(b2.parents, function (p) {
-                    if (p.indexOf(+i1) > -1) {
-                        if (elements[i1].children.indexOf(+i2) === -1) {
-                            elements[i1].children.push(+i2);
-                        }
-                    }
-                });
-            });
-        });
-        return elements;
-    },
-
-    _getQueryOption: function (name) {
-        name = name.replace(/[\[]/, '\\\\[').replace(/[\]]/, '\\\\]');
-        var regex   = new RegExp('[\\?&]' + name + '=([^&#]*)'),
-            results = regex.exec(location.search);
-        return results === null ? false : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    },
-
-    _onReceiveData: function (data) {
-        this.setState({
-            completed: _.union(data, this._primeElements()).sort((a, b) => {
-                return a - b;
-            })
-        });
-    },
-
-    _setFilter: function (filters) {
-        filters = filters.value !== undefined && !filters.value.length ? {} : filters;
-        this.setState({ filter: filters });
-    },
-
-    _setStatus: function (element, remove) {
-        var _completed = this.state.completed.slice(0);
-
-        if (remove) {
-            _.pull(_completed, +element);
-        }
-        else {
-            _completed.push(+element);
-            this._addToCookie(+element);
-        }
-
-        this.setState({
-            completed: _completed
-        });
-    },
-
-    _setOptions: function (option, status) {
-        let state = {};
-
-        if (option === 'resetCompleted') {
-            this._removeCookie();
-            state.completed = this._primeElements();
-        }
-        else {
-            state = React.addons.update(this.state,
-                { options: { [option]: { $set: !this.state.options[option] } } }
-            );
         }
 
         this.setState(state);

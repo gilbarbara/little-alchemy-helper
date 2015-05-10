@@ -103,22 +103,16 @@
     }
 
 
+    &.outdated {
+      border-left-color: $brand-primary;
+      display: block;
+    }
+
     a.close {
       font-size: 14px;
       position: absolute;
       right: 0;
       top: 0;
-    }
-  }
-
-  .alert {
-    background-color: lighten($brand-primary, 36%);
-    border-color: lighten($brand-primary, 32%);
-    color: $brand-primary;
-
-    .close {
-      color: $brand-primary;
-      opacity: 0.7;
     }
   }
 }

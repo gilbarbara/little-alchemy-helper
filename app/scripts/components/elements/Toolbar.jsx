@@ -32,7 +32,6 @@ var Toolbar = React.createClass({
 
     componentDidMount: function () {
         var $switches = $('[type=checkbox], [type=radio]'),
-            $reloader,
             that      = this;
 
         $switches.not('[data-switch-no-init]').bootstrapSwitch();
@@ -42,16 +41,6 @@ var Toolbar = React.createClass({
 
         if (this.props.options.iframe) {
             $('body').addClass('bookmarklet');
-
-            if (!this.props.options.outdated) {
-                $reloader = $(React.findDOMNode(this.refs.reloader));
-
-                setTimeout(function () {
-                    if ($reloader.is(':visible')) {
-                        $reloader.slideUp();
-                    }
-                }, 7500);
-            }
         }
     },
 
@@ -124,29 +113,24 @@ var Toolbar = React.createClass({
                 <h5><a className="label label-primary"
                    href="javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahUrl='http://littlealchemyhelper.com/index.html?type=iframe&version=0.5&import='+game.progress.sort(function(a,b){return a-b;}).join(',');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:20,left:50,border:'1px solid #ccc',width:425,height:$(window).height()-100}).appendTo('body');if(typeof lahListener==='undefined'){lahListener=true;$(document).on('newChildCreated',function(){document.querySelectorAll('#laHelper')[0].contentWindow.postMessage(game.progress,'*');});}}else{$('#laHelper').remove();}}})();">LittleAlchemyHelper</a></h5>
             ),
-            alert: <span>Click the bookmarklet twice to reload your discovered elements</span>
+            alert: <span>If you are playing the game on a desktop browser, drag the button
+                    below to you bookmarks bar and click it while in the game.</span>
     };
 
         if (this.props.options.outdated) {
             options.alert = (
                 <span>You are using an old version of the bookmarklet. Please remove it from your bookmarks bar and drag again
-                    {options.bookmarklet}
                 </span>);
         }
 
         return (
             <div className="app__toolbar">
-                <blockquote className="desktop-alert">If you are playing the game on a desktop browser, drag the button
-                    below to you bookmarks bar and click it while in the game.
+                <blockquote ref="alert" className={'desktop-alert' + (this.props.options.outdated ? ' outdated' : '')}>
+                    {options.alert}
                     {options.bookmarklet}
                     <a href="#" className="close" aria-label="Close" onClick={this._onClickClose}><i
                         className="fa fa-times-circle"></i></a>
                 </blockquote>
-                <div ref="reloader" className="alert alert-dismissible" role="alert">
-                    <button type="button" className="close" aria-label="Close"
-                            onClick={this._onClickClose}>&times;</button>
-                    <i className="fa fa-exclamation-triangle"></i> {options.alert}
-                </div>
                 <div className="row app__toolbar__inputs">
                     <div className="col-sm-6">
                         <InputClearable type="text" id="children" value={this.state.childrenString}
