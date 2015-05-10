@@ -22,23 +22,25 @@ NETWORK:
 *
 
 FALLBACK:
-favicon.ico offline/favicon.ico
 
-media/icon.png offline/media/icon.png
-media/icon.svg offline/media/icon.svg
-media/og-image.png offline/media/og-image.png
+/ index.html
+favicon.ico favicon.ico
 
-scripts/app.js offline/scripts/app.js
-scripts/vendor/modernizr.js offline/scripts/vendor/modernizr.js
+media/icon.png media/icon.png
+media/icon.svg media/icon.svg
+media/og-image.png media/og-image.png
 
-styles/main.css offline/styles/main.css
+scripts/app.js scripts/app.js
+scripts/vendor/modernizr.js scripts/vendor/modernizr.js
 
-styles/fonts/fontawesome-webfont.eot offline/styles/fonts/fontawesome-webfont.eot
-styles/fonts/fontawesome-webfont.svg offline/styles/fonts/fontawesome-webfont.svg
-styles/fonts/fontawesome-webfont.ttf offline/styles/fonts/fontawesome-webfont.ttf
-styles/fonts/fontawesome-webfont.woff offline/styles/fonts/fontawesome-webfont.woff
-styles/fonts/fontawesome-webfont.woff2 offline/styles/fonts/fontawesome-webfont.woff2
+styles/main.css styles/main.css
 
-api/114/base offline/api/114/base
-api/114/names offline/api/114/names
-api/114/images offline/api/114/images
+styles/fonts/fontawesome-webfont.eot styles/fonts/fontawesome-webfont.eot
+styles/fonts/fontawesome-webfont.svg styles/fonts/fontawesome-webfont.svg
+styles/fonts/fontawesome-webfont.ttf styles/fonts/fontawesome-webfont.ttf
+styles/fonts/fontawesome-webfont.woff styles/fonts/fontawesome-webfont.woff
+styles/fonts/fontawesome-webfont.woff2 styles/fonts/fontawesome-webfont.woff2
+
+api/114/base api/114/base
+api/114/names api/114/names
+api/114/images api/114/images

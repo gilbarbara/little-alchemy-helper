@@ -39,18 +39,18 @@ var App = React.createClass({
     },
 
     componentWillMount: function () {
-        if (this.getQueryOption('type') === 'iframe') {
-            window.onmessage = function (e) {
-                if (e.data.length) {
-                    this._onReceiveData(e.data);
-                }
-            }.bind(this);
+        if (this._getQueryOption('type') === 'iframe') {
+                window.onmessage = function (e) {
+                    if (e.data.length) {
+                        this._onReceiveData(e.data);
+                    }
+                }.bind(this);
 
             this.setState(React.addons.update(this.state,
                 {
                     options: {
                         iframe: { $set: true },
-                        outdated: { $set: !!(!this.getQueryOption('version') || this.getQueryOption('version') !== config.bookmarkletVersion) }
+                        outdated: { $set: !!(!this._getQueryOption('version') || this._getQueryOption('version') !== config.bookmarkletVersion) }
                     }
                 }
             ));
@@ -73,7 +73,7 @@ var App = React.createClass({
         if (_.size(this.state.names) && !_.size(prevState.names)) {
             var _cookie = this._getCookie();
             this.setState({
-                elements: this.buildElements(),
+                elements: this._buildElements(),
                 completed: _cookie,
                 ready: true
             });
@@ -82,7 +82,7 @@ var App = React.createClass({
 
         if (_.size(this.state.images) && !_.size(prevState.images)) {
             this.setState({
-                elements: this.buildElements()
+                elements: this._buildElements()
             });
         }
     },
@@ -133,7 +133,7 @@ var App = React.createClass({
         this.setState(state);
     },
 
-    buildElements: function (images) {
+    _buildElements: function (images) {
         var state    = this.state,
             elements = {};
 
@@ -168,7 +168,7 @@ var App = React.createClass({
         return elements;
     },
 
-    getQueryOption: function (name) {
+    _getQueryOption: function (name) {
         name = name.replace(/[\[]/, '\\\\[').replace(/[\]]/, '\\\\]');
         var regex   = new RegExp('[\\?&]' + name + '=([^&#]*)'),
             results = regex.exec(location.search);
@@ -176,9 +176,11 @@ var App = React.createClass({
     },
 
     _onReceiveData: function (data) {
-      this.setState({
-          completed: data.sort()
-      });
+        this.setState({
+            completed: _.union(data, this._primeElements()).sort((a, b) => {
+                return a - b;
+            })
+        });
     },
 
     _setFilter: function (filters) {

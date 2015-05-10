@@ -122,7 +122,7 @@ var Toolbar = React.createClass({
         var options = {
             bookmarklet: (
                 <h5><a className="label label-primary"
-                   href="javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahUrl='http://littlealchemyhelper.com/index.html?type=iframe&version=0.4&import='+game.progress.sort(function(a,b){return a-b;}).join(',');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:20,left:50,border:'1px solid #ccc',width:425,height:$(window).height()-100}).appendTo('body');$(document).on('newChildCreated',function(){document.querySelectorAll('#laHelper')[0].contentWindow.postMessage(game.progress,'*');})}else{$('#laHelper').remove();}}})();">LittleAlchemyHelper</a></h5>
+                   href="javascript:(function(){if(location.href.indexOf('http://littlealchemy.com')>-1){lahUrl='http://littlealchemyhelper.com/index.html?type=iframe&version=0.5&import='+game.progress.sort(function(a,b){return a-b;}).join(',');if(!$('#laHelper').size()){$('<iframe/>').prop({id:'laHelper',src:lahUrl}).css({position:'absolute',top:20,left:50,border:'1px solid #ccc',width:425,height:$(window).height()-100}).appendTo('body');if(typeof lahListener==='undefined'){lahListener=true;$(document).on('newChildCreated',function(){document.querySelectorAll('#laHelper')[0].contentWindow.postMessage(game.progress,'*');});}}else{$('#laHelper').remove();}}})();">LittleAlchemyHelper</a></h5>
             ),
             alert: <span>Click the bookmarklet twice to reload your discovered elements</span>
     };

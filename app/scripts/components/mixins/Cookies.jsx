@@ -8,7 +8,7 @@ var Cookies = {
             if (this.state.base[k].prime) {
                 elements.push(+k);
             }
-        }.bind(this));
+        }, this);
 
         return elements;
     },
@@ -28,10 +28,10 @@ var Cookies = {
         var _cookie    = cookie.load(this.appName),
             savedArray = _cookie ? _cookie.split('|') : this._primeElements();
 
-        if (this.getQueryOption('import') && !this.imported) {
+        if (this._getQueryOption('import') && !this.imported) {
             savedArray = _.uniq(
                 _.union(
-                    _.map(this.getQueryOption('import').split(','), function (d) {
+                    _.map(this._getQueryOption('import').split(','), function (d) {
                         return +d;
                     }),
                     this._primeElements()
