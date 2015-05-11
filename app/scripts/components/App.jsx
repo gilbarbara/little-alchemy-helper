@@ -30,9 +30,10 @@ var App = React.createClass({
             completed: [],
             filter: {},
             options: {
-                showCompleted: false,
                 showAll: false,
-                showCheats: false,
+                showSecret: false,
+                showCheats: true,
+                showCompleted: false,
                 iframe: false,
                 outdated: false
             }

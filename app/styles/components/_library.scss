@@ -14,25 +14,16 @@
     }
     
     .element {
-      color: $brand-primary;
+      color: darken($brand-primary, 10%);
       display: inline-block;
       line-height: 1;
-      padding: 4px 5px 4px 10px;
-
-      > * {
-        display: inline-block;
-        vertical-align: middle;
-      }
 
       > a {
-        color: $brand-primary;
-        font-size: 18px;
+        color: darken($brand-primary, 10%);
+        font-size: 22px;
         margin-left: 10px;
         text-decoration: none;
-
-        &:hover {
-          text-decoration: none;
-        }
+        vertical-align: middle;
       }
     }
   }
@@ -46,7 +37,13 @@
     padding-left: 0;
 
     &.show-completed {
-      .item.completed:not(.hidden) {
+      .item.completed:not(.filtered):not(.secret) {
+        display: block !important;
+      }
+    }
+
+    &.show-secret {
+      .item.secret:not(.filtered) {
         display: block !important;
       }
     }
@@ -148,7 +145,11 @@
       }
     }
 
-    &.hidden {
+    &.filtered {
+      display: none;
+    }
+
+    &.secret {
       display: none;
     }
   }

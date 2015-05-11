@@ -149,19 +149,26 @@ var Toolbar = React.createClass({
                         <h4 className="app__toolbar__heading">Cheats</h4>
 
                         <div className="row">
-                            <div className="col-xs-6 col-sm-6">
-                                <label className="app__toolbar__switches">
-                                    <input id="showCheats" type="checkbox" value="1"
-                                           data-on-text="<i class='fa fa-eye'></i>"
-                                           data-off-text="<i class='fa fa-eye-slash'></i>"
-                                           defaultChecked={this.props.options.showCheats}/>Show Composition?</label>
-                            </div>
-                            <div className="col-xs-6 col-sm-6">
+                            <div className="col-xs-4 col-sm-4">
                                 <label className="app__toolbar__switches">
                                     <input id="showAll" type="checkbox" value="1"
                                            data-on-text="<i class='fa fa-check'></i>"
                                            data-off-text="<i class='fa fa-times'></i>"
-                                           defaultChecked={this.props.options.showAll}/>Show All Elements?</label>
+                                           defaultChecked={this.props.options.showAll}/>All Elements</label>
+                            </div>
+                            <div className="col-xs-4 col-sm-4">
+                                <label className="app__toolbar__switches">
+                                    <input id="showCheats" type="checkbox" value="1"
+                                           data-on-text="<i class='fa fa-eye'></i>"
+                                           data-off-text="<i class='fa fa-eye-slash'></i>"
+                                           defaultChecked={this.props.options.showCheats}/>Composition</label>
+                            </div>
+                            <div className="col-xs-4 col-sm-4">
+                                <label className="app__toolbar__switches">
+                                    <input id="showSecret" type="checkbox" value="1"
+                                           data-on-text="<i class='fa fa-check'></i>"
+                                           data-off-text="<i class='fa fa-times'></i>"
+                                           defaultChecked={this.props.options.showSecret}/>Secret Elements</label>
                             </div>
                         </div>
                     </div>

@@ -13,7 +13,8 @@ var Utils = {
                 id: i1,
                 name: state.names[i1],
                 image: images[i1],
-                prime: b1.prime
+                prime: b1.prime,
+                hidden: b1.hidden
             };
 
             if (!b1.prime) {

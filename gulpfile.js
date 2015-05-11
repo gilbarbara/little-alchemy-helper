@@ -1,17 +1,17 @@
-var gulp = require('gulp'),
-    $ = require('gulp-load-plugins')(),
-    bowerFiles = require('main-bower-files'),
-    browserify = require('browserify'),
-    browserSync = require('browser-sync'),
-    buffer = require('vinyl-buffer'),
-    del = require('del'),
-    historyApiFallback = require('connect-history-api-fallback'),
-    merge = require('merge-stream'),
-    path = require('path'),
-    runSequence = require('run-sequence'),
-    source = require('vinyl-source-stream'),
-    watchify = require('watchify'),
-    wiredep = require('wiredep').stream,
+var gulp                  = require('gulp'),
+    $                     = require('gulp-load-plugins')(),
+    bowerFiles            = require('main-bower-files'),
+    browserify            = require('browserify'),
+    browserSync           = require('browser-sync'),
+    buffer                = require('vinyl-buffer'),
+    del                   = require('del'),
+    historyApiFallback    = require('connect-history-api-fallback'),
+    merge                 = require('merge-stream'),
+    path                  = require('path'),
+    runSequence           = require('run-sequence'),
+    source                = require('vinyl-source-stream'),
+    watchify              = require('watchify'),
+    wiredep               = require('wiredep').stream,
     AUTOPREFIXER_BROWSERS = [
         'ie >= 10',
         'ie_mob >= 10',
@@ -29,7 +29,7 @@ var middleware = historyApiFallback({});
 var isProduction = function () {
         return process.env.NODE_ENV === 'production';
     },
-    config = {
+    config       = {
         dest: function () {
             return (isProduction() ? 'dist' : '.tmp');
         }
@@ -37,7 +37,7 @@ var isProduction = function () {
 
 // Functions
 
-function watchifyTask(options) {
+function watchifyTask (options) {
     var bundler, rebundle, iteration = 0;
     bundler = browserify({
         entries: path.join(__dirname, '/app/scripts/main.js'),
@@ -48,7 +48,7 @@ function watchifyTask(options) {
         packageCache: {}, // required for watchify
         fullPaths: options.watch, // required to be true only for watchify
         transform: [
-            ['babelify', {ignore: /bower_components/}]
+            ['babelify', { ignore: /bower_components/ }]
         ],
         extensions: ['.jsx']
     });
@@ -83,7 +83,7 @@ function watchifyTask(options) {
 }
 
 gulp.task('styles', function () {
-    return gulp.src('app/styles/main.scss')
+    gulp.src('app/styles/main.scss')
         .pipe($.changed('styles', {
             extension: '.scss'
         }))
@@ -170,7 +170,7 @@ gulp.task('bundle', ['media'], function () {
         'app/*.*',
         '!app/*.html',
         'app/api/**'
-    ], {dot: true, base: 'app/'})
+    ], { dot: true, base: 'app/' })
         .pipe(gulp.dest('dist'))
         .pipe($.size({
             title: 'Bundle:copy'
@@ -181,7 +181,7 @@ gulp.task('bundle', ['media'], function () {
 
 gulp.task('wiredep', function () {
     return gulp.src('app/index.html')
-        .pipe(wiredep({exclude: ['bootstrap-sass']}))
+        .pipe(wiredep({ exclude: ['bootstrap-sass'] }))
         .pipe(gulp.dest('app'))
         .pipe($.size({
             title: 'wiredep'
@@ -212,7 +212,7 @@ gulp.task('sizer', function () {
 });
 
 gulp.task('sync', function () {
-    return gulp.src('', {read: false})
+    return gulp.src('', { read: false })
         .pipe($.shell([
             'rsync -rvpa --progress --delete --exclude=.DS_Store -e "ssh -q -t" dist/ lahelper@littlealchemyhelper.com:/home/lahelper/public_html'
         ])

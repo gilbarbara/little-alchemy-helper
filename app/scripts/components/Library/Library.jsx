@@ -29,7 +29,7 @@ var Library = React.createClass({
         $('.item').tooltip();
     },
 
-    _heading: function () {
+    _heading: function (size) {
         var _title    = 'All Elements',
             _headings = {
                 descendants: 'Elements you can build',
@@ -43,13 +43,17 @@ var Library = React.createClass({
                     {_headings[this.props.filter.type]}
                     <span
                         className="element">{this.props.filter.value ? (this.props.filter.type === 'children' ? this.props.filter.value : this.props.filter.value) : ''}
+                        [{size}]
                         <a href="#" className={!this.props.filter.type ? ' hidden' : ''}
                            onClick={this._onClickClearFilter}><i className="fa fa-times-circle-o"></i></a></span>
                 </div>
             );
         }
         else if (!this.props.options.showAll) {
-            _title = _headings.descendants;
+            _title = (
+                <div>
+                    {_headings.descendants} [{size}]
+                </div>);
         }
 
         return _title;
@@ -80,7 +84,9 @@ var Library = React.createClass({
         else if (this.props.filter.type === 'search') {
             _.map(this.props.elements, function (d, i) {
                 if (d.name.indexOf(this.props.filter.value) > -1) {
-                    filtered.push(i);
+                    if (!d.hidden || (d.hidden && this.props.options.showSecret)) {
+                        filtered.push(i);
+                    }
                 }
             }, this);
         }
@@ -143,7 +149,7 @@ var Library = React.createClass({
 
             return (
                 <li key={i} id={i}
-                    className={'item thumbnail' + (!d.children.length ? ' finalElement' : '') + (options.completed ? ' completed' : '') + (filtered.length && filtered.indexOf(i) === -1 ? ' hidden' : '') }
+                    className={'item thumbnail' + (!d.children.length ? ' final' : '') + (d.hidden ? ' secret' : '') + (options.completed ? ' completed' : '') + (filtered.length && filtered.indexOf(i) === -1 ? ' filtered' : '') }
                     data-name={d.name}
                     data-composition={d.parents ? options.parents.join(';') : ''}
                     data-make={options.children.join(', ')}>
@@ -172,7 +178,7 @@ var Library = React.createClass({
             );
         }, this);
 
-        options.heading = this._heading(options.visible);
+        options.heading = this._heading(filtered.length);
 
         if (filtered.length) {
             options.classes.push('filtered');
@@ -184,6 +190,10 @@ var Library = React.createClass({
 
         if (this.props.options.showCompleted) {
             options.classes.push('show-completed');
+        }
+
+        if (this.props.options.showSecret) {
+            options.classes.push('show-secret');
         }
 
         return (

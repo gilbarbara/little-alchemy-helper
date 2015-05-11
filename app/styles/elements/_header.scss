@@ -19,8 +19,9 @@
 
   h1 {
     font-size: 2.4rem;
-    font-weight: 300;
+    font-family: Montserrat, sans-serif;
     margin-top: 0;
+
 
     @include md {
       font-size: 4.8rem;
