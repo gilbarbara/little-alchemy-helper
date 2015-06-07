@@ -13,14 +13,14 @@ var gulp                  = require('gulp-help')(require('gulp')),
     watchify              = require('watchify'),
     wiredep               = require('wiredep').stream,
     AUTOPREFIXER_BROWSERS = [
-        'ie >= 10',
+        'ie >= 9',
         'ie_mob >= 10',
         'ff >= 30',
         'chrome >= 34',
-        'safari >= 7',
+        'safari >= 6',
         'opera >= 23',
-        'ios >= 7',
-        'android >= 4.4',
+        'ios >= 6',
+        'android >= 4.2',
         'bb >= 10'
     ];
 
@@ -148,7 +148,7 @@ gulp.task('bundle', ['media'], function () {
     var html,
         vendor,
         files,
-        timestamp,
+        appcache,
         assets = $.useref.assets({
             searchPath: ['.tmp', 'app', '.']
         });
@@ -167,13 +167,14 @@ gulp.task('bundle', ['media'], function () {
     vendor = gulp.src('bower_components/modernizr/modernizr.js')
         .pipe($.uglify());
 
-    timestamp = gulp.src('app/manifest.appcache')
-        .pipe($.replace('[TIMESTAMP]', new Date().getTime()))
+    appcache = gulp.src('app/manifest.appcache')
+        .pipe($.replace('[DATE]', new Date().toISOString()))
         .pipe(gulp.dest('dist'));
 
     files = gulp.src([
         'app/*.*',
         '!app/*.html',
+        '!app/*.appcache',
         'app/api/**'
     ], { dot: true, base: 'app/' })
         .pipe(gulp.dest('dist'))
@@ -181,7 +182,7 @@ gulp.task('bundle', ['media'], function () {
             title: 'Bundle:copy'
         }));
 
-    return merge(html, vendor, files);
+    return merge(html, vendor, appcache, files);
 });
 
 gulp.task('wiredep', function () {

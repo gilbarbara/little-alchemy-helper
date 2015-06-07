@@ -9,7 +9,7 @@
     "bootstrap-sass": "~3",
     "bootstrap-switch": "~3.3.2",
     "font-awesome": "latest",
-    "jquery": "~1.*",
+    "jquery": "^2",
     "modernizr": "~2.8.3"
   }
 }
