@@ -4,10 +4,13 @@
 
   h3 {
     color: $brand-primary;
-    font-family: Lobster, cursive;
-    font-size: 36px;
+    font-size: 2rem;
     margin: 0 0 ($grid-gutter-width);
     text-align: center;
+    
+    @include md {
+      font-size: 3rem;
+    }
 
     > div {
       display: inline-block;
