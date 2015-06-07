@@ -1,4 +1,4 @@
-var gulp                  = require('gulp'),
+var gulp                  = require('gulp-help')(require('gulp')),
     $                     = require('gulp-load-plugins')(),
     bowerFiles            = require('main-bower-files'),
     browserify            = require('browserify'),
@@ -43,10 +43,10 @@ function watchifyTask (options) {
         entries: path.join(__dirname, '/app/scripts/main.js'),
         basedir: __dirname,
         insertGlobals: true,
-        cache: {}, // required for watchify
+        cache: {},
         debug: options.watch,
-        packageCache: {}, // required for watchify
-        fullPaths: options.watch, // required to be true only for watchify
+        packageCache: {},
+        fullPaths: options.watch,
         transform: [
             ['babelify', { ignore: /bower_components/ }]
         ],
@@ -148,6 +148,7 @@ gulp.task('bundle', ['media'], function () {
     var html,
         vendor,
         files,
+        timestamp,
         assets = $.useref.assets({
             searchPath: ['.tmp', 'app', '.']
         });
@@ -165,6 +166,10 @@ gulp.task('bundle', ['media'], function () {
 
     vendor = gulp.src('bower_components/modernizr/modernizr.js')
         .pipe($.uglify());
+
+    timestamp = gulp.src('app/manifest.appcache')
+        .pipe($.replace('[TIMESTAMP]', new Date().getTime()))
+        .pipe(gulp.dest('dist'));
 
     files = gulp.src([
         'app/*.*',
