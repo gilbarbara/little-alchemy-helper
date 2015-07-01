@@ -207,7 +207,9 @@ gulp.task('mocha', function () {
         }));
 });
 
-gulp.task('clean', del.bind(null, [config.dest() + '/*']));
+gulp.task('clean', function (cb) {
+    del([config.dest() + '/*'], cb);
+});
 
 gulp.task('sizer', function () {
     return gulp.src(config.dest() + '/**/*')

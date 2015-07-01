@@ -17,12 +17,12 @@
     }
     
     .element {
-      color: darken($brand-primary, 10%);
+      color: darken($brand-primary, 5%);
       display: inline-block;
       line-height: 1;
 
       > a {
-        color: darken($brand-primary, 10%);
+        color: darken($brand-primary, 5%);
         font-size: 22px;
         margin-left: 10px;
         text-decoration: none;

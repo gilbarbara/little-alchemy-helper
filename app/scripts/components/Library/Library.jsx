@@ -42,7 +42,7 @@ var Library = React.createClass({
                 <div>
                     {_headings[this.props.filter.type]}
                     <span
-                        className="element">{this.props.filter.value ? (this.props.filter.type === 'children' ? this.props.filter.value : this.props.filter.value) : ''}
+                        className="element">{this.props.filter.value ? this.props.filter.value : ''}
                         [{size}]
                         <a href="#" className={!this.props.filter.type ? ' hidden' : ''}
                            onClick={this._onClickClearFilter}><i className="fa fa-times-circle-o"></i></a></span>
@@ -73,7 +73,7 @@ var Library = React.createClass({
             _.map(this.props.elements, function (d, i) {
                 if (d.parents) {
                     _.each(d.parents, function (p) {
-                        if (p[0] === _parent || p[1] === _parent) {
+                        if ((p[0] === _parent || p[1] === _parent) && (!this.props.options.showAll ? this.props.completed.indexOf(p[0]) > -1 && this.props.completed.indexOf(p[1]) > -1 : true)) {
                             filtered.push(i);
                         }
                     }, this);
@@ -83,8 +83,8 @@ var Library = React.createClass({
         }
         else if (this.props.filter.type === 'search') {
             _.map(this.props.elements, function (d, i) {
-                if (d.name.indexOf(this.props.filter.value) > -1) {
-                    if (!d.hidden || (d.hidden && this.props.options.showSecret)) {
+                if (d.name.indexOf(this.props.filter.value) > -1 && (!this.props.options.showAll ? this.props.completed.indexOf(+d.id) > -1 : true)) {
+                    if ((!d.hidden || (d.hidden && this.props.options.showSecret))) {
                         filtered.push(i);
                     }
                 }
@@ -149,7 +149,7 @@ var Library = React.createClass({
 
             return (
                 <li key={i} id={i}
-                    className={'item thumbnail' + (!d.children.length ? ' final' : '') + (d.hidden ? ' secret' : '') + (options.completed ? ' completed' : '') + (filtered.length && filtered.indexOf(i) === -1 ? ' filtered' : '') }
+                    className={'item thumbnail' + (!d.children.length ? ' final' : '') + (d.hidden ? ' secret' : '') + (options.completed && !this.props.filter.type !== 'search' ? ' completed' : '') + ((this.props.filter.value && !filtered.length) || (filtered.length && filtered.indexOf(i) === -1) ? ' filtered' : '') }
                     data-name={d.name}
                     data-composition={d.parents ? options.parents.join(';') : ''}
                     data-make={options.children.join(', ')}>
@@ -180,7 +180,7 @@ var Library = React.createClass({
 
         options.heading = this._heading(filtered.length);
 
-        if (filtered.length) {
+        if (filtered.length || (this.props.filter.value && !filtered.length)) {
             options.classes.push('filtered');
         }
 
@@ -188,7 +188,7 @@ var Library = React.createClass({
             options.classes.push('empty');
         }
 
-        if (this.props.options.showCompleted) {
+        if (this.props.options.showCompleted || this.props.filter.type === 'search') {
             options.classes.push('show-completed');
         }
 
